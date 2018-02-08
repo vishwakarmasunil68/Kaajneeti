@@ -24,6 +24,8 @@ public class UserProfilePOJO {
     private String userPhonecountry;
     @SerializedName("user_mobile")
     private String userMobile;
+    @SerializedName("user_alt_mobile")
+    private String user_alt_mobile;
     @SerializedName("user_createdon")
     private String userCreatedon;
     @SerializedName("user_address")
@@ -40,8 +42,12 @@ public class UserProfilePOJO {
     private String userGender;
     @SerializedName("user_login_status")
     private String userLoginStatus;
+    @SerializedName("profiles")
+    private ProfilePOJO profiles;
 
-    public UserProfilePOJO(String userId, String userProfileId, String userName, String userFullName, String userImage, String userEmail, String userPhonecountry, String userMobile, String userCreatedon, String userAddress, String userCity, String userState, String userDeviceToken, String userDateOfBirth, String userGender, String userLoginStatus) {
+
+
+    public UserProfilePOJO(String userId, String userProfileId, String userName, String userFullName, String userImage, String userEmail, String userPhonecountry, String userMobile,String userAltMobile, String userCreatedon, String userAddress, String userCity, String userState, String userDeviceToken, String userDateOfBirth, String userGender, String userLoginStatus) {
         this.userId = userId;
         this.userProfileId = userProfileId;
         this.userName = userName;
@@ -54,6 +60,7 @@ public class UserProfilePOJO {
         this.userAddress = userAddress;
         this.userCity = userCity;
         this.userState = userState;
+        this.user_alt_mobile=userAltMobile;
         this.userDeviceToken = userDeviceToken;
         this.userDateOfBirth = userDateOfBirth;
         this.userGender = userGender;
@@ -186,5 +193,21 @@ public class UserProfilePOJO {
 
     public void setUserLoginStatus(String userLoginStatus) {
         this.userLoginStatus = userLoginStatus;
+    }
+
+    public String getUser_alt_mobile() {
+        return user_alt_mobile;
+    }
+
+    public void setUser_alt_mobile(String user_alt_mobile) {
+        this.user_alt_mobile = user_alt_mobile;
+    }
+
+    public ProfilePOJO getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(ProfilePOJO profiles) {
+        this.profiles = profiles;
     }
 }

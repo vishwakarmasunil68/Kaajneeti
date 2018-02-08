@@ -1,39 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/nav_home"
-        android:checked="true"
-        android:title="Home" />
-    <item
-        android:id="@+id/nav_dashboard"
-        android:checked="true"
-        android:title="DashBoard" />
-    <item
-        android:id="@+id/nav_leader"
-        android:checked="true"
-        android:title="Leaders" />
 
-    <item
-        android:id="@+id/nav_community"
-        android:checked="true"
-        android:title="Community" />
-    <item
-        android:id="@+id/nav_communication"
-        android:checked="true"
-        android:title="Communication" />
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:checked="true"
+            android:title="@string/hs_menu_home"
+            android:icon="@mipmap/ic_launcher"/>
 
-    <item
-        android:id="@+id/nav_calendar"
-        android:checked="true"
-        android:title="Calendar" />
-    <item
-        android:id="@+id/nav_setting"
-        android:checked="true"
-        android:title="Settings" />
-    <item
-        android:id="@+id/nav_logout"
-        android:checked="true"
-        android:title="Logout" />
+        <item
+            android:id="@+id/nav_news"
+            android:checked="true"
+            android:title="@string/hs_menu_news"
+            android:icon="@mipmap/ic_launcher"/>
 
+        <item
+            android:id="@+id/nav_dashboard"
+            android:checked="true"
+            android:title="@string/hs_menu_dashboard"
+            android:icon="@mipmap/ic_launcher"/>
 
+        <item
+            android:id="@+id/nav_connection"
+            android:checked="true"
+            android:title="@string/hs_menu_myconnection"
+            android:icon="@mipmap/ic_launcher"/>
+
+        <item
+            android:id="@+id/nav_community"
+            android:checked="true"
+            android:title="@string/hs_menu_mycommunication"
+            android:icon="@mipmap/ic_launcher"/>
+        <item
+            android:id="@+id/nav_calendar"
+            android:checked="true"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/hs_menu_calendar" />
+        <item
+            android:id="@+id/nav_reward"
+            android:checked="true"
+            android:title="@string/hs_menu_reward"
+            android:icon="@mipmap/ic_launcher"/>
+
+        <item
+            android:id="@+id/nav_info_directory"
+            android:checked="true"
+            android:title="@string/hs_menu_info"
+            android:icon="@mipmap/ic_launcher"/>
+
+        <item
+            android:id="@+id/nav_social_buzz"
+            android:checked="true"
+            android:title="@string/hs_menu_social"
+            android:icon="@mipmap/ic_launcher"/>
+
+    </group>
+
+    <group
+        android:id="@+id/group2">
+
+        <item
+            android:id="@+id/nav_report"
+            android:checked="true"
+            android:title="@string/hs_menu_report"
+            android:icon="@mipmap/ic_launcher"/>
+        <item
+            android:id="@+id/nav_setting"
+            android:checked="true"
+            android:title="@string/hs_menu_settings"
+            android:icon="@mipmap/ic_launcher"/>
+        <item
+            android:id="@+id/nav_help"
+            android:checked="true"
+            android:title="@string/hs_menu_help"
+            android:icon="@mipmap/ic_launcher"/>
+        <item
+            android:id="@+id/nav_logout"
+            android:checked="true"
+            android:title="@string/hs_menu_logout"
+            android:icon="@mipmap/ic_launcher"/>
+    </group>
 </menu>

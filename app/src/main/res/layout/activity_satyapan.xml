@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="वापस"
+                android:text="@string/back"
                 android:textColor="#0d558f"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="मोबाइल नंबर सत्यापन"
+                    android:text="@string/satya_title"
                     android:textColor="#105b9e"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -76,7 +76,7 @@
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="60dp"
                     android:gravity="center"
-                    android:text="कृपया सत्यापन के लिए आपके वकाल्पिक मोबाइल नंबर पर भेजा गया OTP दर्ज करे"
+                    android:text="@string/satya_subtitle1"
                     android:textColor="#000000"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -88,7 +88,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="25dp"
                     android:gravity="center"
-                    android:text="(यदि हम मम्स स्वचलित रूप से पता लगाने के विफल होगा तो निचे दिया OTP दर्ज करे)"
+                    android:text="@string/satya_subtitle2"
                     android:textColor="#000000"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -99,6 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:hint="OTP"
+                    android:inputType="number"
                     android:background="@null"
                     android:textSize="24sp" />
 
@@ -112,14 +113,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
-                    android:text="6 अंको वाला OTP दर्ज करे" />
+                    android:text="@string/satya_otp" />
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Time" />
+                    android:text="@string/satya_time" />
 
                 <ProgressBar
                     android:id="@+id/progress_timer"
@@ -137,9 +138,9 @@
                     android:layout_height="45dp"
                     android:layout_marginLeft="70dp"
                     android:layout_marginRight="70dp"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginTop="30dp"
                     android:background="@drawable/btn_next"
-                    android:text="अगला"
+                    android:text="@string/satya_btn_next"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp" />
 

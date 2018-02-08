@@ -2,15 +2,19 @@ package com.ritvi.cms.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.akexorcist.localizationactivity.ui.LocalizationActivity;
+import com.google.gson.Gson;
 import com.ritvi.cms.R;
+import com.ritvi.cms.Util.Pref;
+import com.ritvi.cms.Util.StringUtils;
 import com.ritvi.cms.Util.TagUtils;
 import com.ritvi.cms.Util.ToastClass;
+import com.ritvi.cms.pojo.user.UserProfilePOJO;
 import com.ritvi.cms.webservice.WebServiceBase;
 import com.ritvi.cms.webservice.WebServicesCallBack;
 import com.ritvi.cms.webservice.WebServicesUrls;
@@ -24,7 +28,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MpinActivity extends AppCompatActivity implements WebServicesCallBack{
+public class MpinActivity extends LocalizationActivity implements WebServicesCallBack{
 
     private static final String CALL_MPIN_SET = "call_mpin_set";
     @BindView(R.id.btn_accept)
@@ -39,7 +43,7 @@ public class MpinActivity extends AppCompatActivity implements WebServicesCallBa
     String mobile_number = "";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mpin);
         ButterKnife.bind(this);
@@ -57,7 +61,7 @@ public class MpinActivity extends AppCompatActivity implements WebServicesCallBa
                     ToastClass.showShortToast(getApplicationContext(), "Please Enter Mpin");
                 } else {
                     if (et_confirm_mpin.getText().toString().equals(et_mpin.getText().toString())) {
-//                        startActivity(new Intent(MpinActivity.this, HomeActivity.class));
+//                        startActivity(new Intent(MpinActivity.this, CitizenHomeActivity.class));
                         callSetMpin();
                     } else {
                         ToastClass.showShortToast(getApplicationContext(), "Please Enter same MPIN");
@@ -95,14 +99,26 @@ public class MpinActivity extends AppCompatActivity implements WebServicesCallBa
     }
 
     public void parseMpinResponse(String response) {
-        try {
+        try{
             JSONObject jsonObject=new JSONObject(response);
             if(jsonObject.optString("status").equals("success")){
-                startActivity(new Intent(MpinActivity.this,HomeActivity.class));
-            }else{
-                ToastClass.showShortToast(getApplicationContext(),"Failed to set Mpin");
+                String user_profile=jsonObject.optJSONObject("user_detail").optJSONObject("user_profile").toString();
+                Gson gson=new Gson();
+                UserProfilePOJO userProfilePOJO=gson.fromJson(user_profile,UserProfilePOJO.class);
+                Pref.SaveUserProfile(getApplicationContext(),userProfilePOJO,user_profile);
+                Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_LOGIN,true);
+                if(userProfilePOJO.getUserFullName().equals("")||userProfilePOJO.getUserGender().equals("0")||
+                        userProfilePOJO.getUserDateOfBirth().equals("0000-00-00")||userProfilePOJO.getUserState().equals("")){
+                    Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED,false);
+                    startActivity(new Intent(this, ProfileInfoActivity.class));
+                    finishAffinity();
+                }else{
+                    Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED,true);
+                    startActivity(new Intent(this, CitizenHomeActivity.class));
+                    finishAffinity();
+                }
             }
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
     }

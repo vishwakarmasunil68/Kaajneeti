@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -31,7 +31,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.ritvi.cms.R;
 import com.ritvi.cms.Util.TagUtils;
 import com.ritvi.cms.adapter.ViewPagerWithTitleAdapter;
-import com.ritvi.cms.fragment.LoginAadharFragment;
 import com.ritvi.cms.fragment.LoginMobileFragment;
 import com.ritvi.cms.webservice.WebServiceBase;
 import com.ritvi.cms.webservice.WebServicesCallBack;
@@ -60,7 +59,7 @@ import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 import retrofit2.Call;
 
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,WebServicesCallBack{
+public class LoginActivity extends LocalizationActivity implements GoogleApiClient.OnConnectionFailedListener, WebServicesCallBack {
 
     private static final String CALL_LOGIN_API = "call_login_api";
     @BindView(R.id.tabs)
@@ -75,6 +74,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     TwitterLoginButton twitterLoginButton;
     @BindView(R.id.tv_new_user)
     TextView tv_new_user;
+    @BindView(R.id.iv_twitter_login)
+    ImageView iv_twitter_login;
 
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInOptions gso;
@@ -87,7 +88,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final String TWITTER_SECRET = "FFKtAo7BeyDoEoUeRXZUq1FwHAjCHutOXZc4gcimEmG4cOMWKV";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
@@ -135,24 +136,45 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
+        iv_twitter_login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void success(Result<TwitterSession> result) {
-                //If login succeeds passing the Calling the login method and passing Result object
-                login(result);
-            }
+            public void onClick(View view) {
+                TwitterAuthClient mTwitterAuthClient= new TwitterAuthClient();
+                mTwitterAuthClient.authorize(LoginActivity.this, new com.twitter.sdk.android.core.Callback<TwitterSession>() {
 
-            @Override
-            public void failure(TwitterException exception) {
-                //If failure occurs while login handle it here
-                Log.d("TwitterKit", "Login with Twitter failure", exception);
+                    @Override
+                    public void success(Result<TwitterSession> twitterSessionResult) {
+                        // Success
+                        login(twitterSessionResult);
+                    }
+
+                    @Override
+                    public void failure(TwitterException e) {
+                        e.printStackTrace();
+                    }
+                });
+
             }
         });
+
+//        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
+//            @Override
+//            public void success(Result<TwitterSession> result) {
+//                //If login succeeds passing the Calling the login method and passing Result object
+//                login(result);
+//            }
+//
+//            @Override
+//            public void failure(TwitterException exception) {
+//                //If failure occurs while login handle it here
+//                Log.d("TwitterKit", "Login with Twitter failure", exception);
+//            }
+//        });
 
         tv_new_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this,RegistrationActivity.class));
+                startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
             }
         });
     }
@@ -187,8 +209,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerWithTitleAdapter adapter = new ViewPagerWithTitleAdapter(getSupportFragmentManager());
-        adapter.addFrag(new LoginMobileFragment(), "MOBILE");
-        adapter.addFrag(new LoginAadharFragment(), "AADHAR");
+        adapter.addFrag(new LoginMobileFragment(), getResources().getString(R.string.login_mobile_number));
+//        adapter.addFrag(new LoginAadharFragment(), getResources().getString(R.string.login_aadhar));
         viewPager.setAdapter(adapter);
 
     }
@@ -328,23 +350,23 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    public void callLoginAPI(){
-        ArrayList<NameValuePair> nameValuePairs=new ArrayList<>();
-        nameValuePairs.add(new BasicNameValuePair("",""));
-        new WebServiceBase(nameValuePairs,this,this,CALL_LOGIN_API,true).execute(WebServicesUrls.LOGIN_URL);
+    public void callLoginAPI() {
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("", ""));
+        new WebServiceBase(nameValuePairs, this, this, CALL_LOGIN_API, true).execute(WebServicesUrls.LOGIN_URL);
     }
 
     @Override
     public void onGetMsg(String apicall, String response) {
-        Log.d(TagUtils.getTag(),apicall+":-"+response);
-        switch (apicall){
+        Log.d(TagUtils.getTag(), apicall + ":-" + response);
+        switch (apicall) {
             case CALL_LOGIN_API:
                 parseLoginResponse(response);
                 break;
         }
     }
 
-    public void parseLoginResponse(String response){
+    public void parseLoginResponse(String response) {
 
     }
 }

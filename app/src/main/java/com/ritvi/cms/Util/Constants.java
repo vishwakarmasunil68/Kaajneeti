@@ -11,4 +11,9 @@ public class Constants {
     public static final int GENDER_FEMALE=2;
     public static final int GENDER_OTHER=3;
 
+    public static final int USER_TYPE_CITIZEN=1;
+    public static final int USER_TYPE_LEADER=2;
+    public static final int USER_TYPE_SUB_LEADER=3;
+    public static final int USER_TYPE_NONE=0;
+
 }

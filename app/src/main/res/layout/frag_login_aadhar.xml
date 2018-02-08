@@ -10,23 +10,23 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Aadhar Number"/>
+        android:hint="@string/lwa_aadhar_number"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OR"/>
+        android:text="@string/lwa_or"/>
 
     <TextView
         android:id="@+id/tv_scan_aadhar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SCAN YOUR AADHAR"/>
+        android:text="@string/lwa_scan"/>
 
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CONTINUE"/>
+        android:text="@string/lwa_continue"/>
 
 </LinearLayout>

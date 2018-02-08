@@ -39,7 +39,7 @@
                     android:layout_marginLeft="50dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Home"
+                    android:text="@string/hs_tab_home"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp" />
 

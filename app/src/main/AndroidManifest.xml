@@ -38,7 +38,7 @@
         <activity android:name=".activity.SliderActivity" />
         <activity android:name=".activity.RegistrationActivity" />
         <activity android:name=".activity.TermsConditionActivity" />
-        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.CitizenHomeActivity" />
         <activity android:name=".activity.SatyapanActivity" />
         <activity android:name=".activity.MpinActivity" />
 
@@ -66,11 +66,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.AadharQrScannerActivity" />
-         <activity android:name=".activity.ProfileInfoActivity"></activity>
+        <activity android:name=".activity.ProfileInfoActivity" />
         <activity android:name=".activity.StateSelectActivity" />
         <activity android:name=".activity.AddCommunication" />
         <activity android:name=".activity.AddCommunicationAddressActivity" />
-        <activity android:name=".activity.ApplicationSubmittedActivity"></activity>
+        <activity android:name=".activity.ApplicationSubmittedActivity" />
+        <activity android:name=".activity.AllLeaderActivity" />
+        <activity android:name=".activity.FavoriteLeaderActivity" />
+        <activity android:name=".activity.LeaderHomeActivity" />
+        <activity android:name=".activity.SubLeaderHomeActivity"></activity>
     </application>
 
 </manifest>

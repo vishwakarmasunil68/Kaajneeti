@@ -43,7 +43,7 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/et_block"
+            android:id="@+id/et_town_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Town Area" />
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/et_village_panchayat"
+            android:id="@+id/et_ward"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ward" />
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/et_village"
+            android:id="@+id/et_full_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Full Address" />

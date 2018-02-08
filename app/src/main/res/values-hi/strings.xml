@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="back">वापस</string>
+
+    <string name="tmc_terms">में सभी नियम और शर्तो से सहेमत हु</string>
+    <string name="tmc_accept">अगला ></string>
+
+    <!--slider screen-->
+    <string name="slider_login">लोग इन</string>
+    <string name="slider_register">पंजीकरण</string>
+
+    <!--loginscreen-->
+    <string name="login_mobile_number">मोबाइल</string>
+    <string name="login_aadhar">आधार</string>
+    <string name="login_or_login_with">या इसके साथ लॉग इन करें</string>
+    <string name="login_donthave_account">खाता नहीं है? यहां रजिस्टर करें</string>
+    <string name="login_new_user">नया उपयोगकर्ता</string>
+    <string name="login_guide">मार्गदर्शक</string>
+
+    <!--loginwithmobilenumber-->
+    <string name="lmn_mobile_number">मोबाइल नंबर</string>
+    <string name="lmn_mpin">मपिन</string>
+    <string name="lmn_login_with_otp">ओटीपी के साथ लॉगिन</string>
+    <string name="lmn_login_forgot_mpin">मपिन भूल गए</string>
+    <string name="lmn_login_button">लॉग इन करें</string>
+
+    <!--loginwithaadhar-->
+    <string name="lwa_aadhar_number">आधार संख्या</string>
+    <string name="lwa_or">या</string>
+    <string name="lwa_scan">आपका आधार स्कैन करें</string>
+    <string name="lwa_continue">जारी रहना</string>
+
+    <!--registrationscreen-->
+    <string name="reg_txt">पंजीकरण</string>
+    <string name="reg_otp_start">चलिए आपको 10 अंको वाले मोबाइल नंबर के सत्यापन के साथ शुरू करते ह</string>
+    <string name="reg_otp_send">हम सत्यापन के लिए इस नंबर पर OTP भेजेंगे</string>
+    <string name="reg_et_number">संख्या</string>
+    <string name="reg_note">यद् रखे, यह मोबाइल नंबर लोग इन परिक्रिया के लिए इस्तेमाल किया जायेगा</string>
+    <string name="reg_next">अगला</string>
+
+
+    <!--satyapanscreen-->
+    <string name="satya_title">मोबाइल नंबर सत्यापन</string>
+    <string name="satya_subtitle1">कृपया सत्यापन के लिए आपके वकाल्पिक मोबाइल नंबर पर भेजा गया OTP दर्ज करे</string>
+    <string name="satya_subtitle2">(यदि हम मम्स स्वचलित रूप से पता लगाने के विफल होगा तो निचे दिया OTP दर्ज करे)</string>
+    <string name="satya_et_otp">OTP</string>
+    <string name="satya_time">पहर</string>
+    <string name="satya_otp">6 अंको वाला OTP दर्ज करे</string>
+    <string name="satya_btn_next">अगला</string>
+
+    <!--mpinsetscreen-->
+    <string name="mpin_set">MPIN सेट करे</string>
+    <string name="mpin_account">कृपया अपने अकाउंट कोअनाद्रिक्त पुच से सुरक्षित रखने के लिए एक 4 अंको वाला MPIN सेट करे</string>
+    <string name="mpin_set_kare">MPIN दर्ज करे</string>
+    <string name="mpin_purti_kare">MPIN की पुस्ती करे</string>
+    <string name="mpin_profile_enrollment">MPIN प्रोफाइल औरलेनदेनमें आवश्यक परिवर्तन करने के लिए इस्तेमाल किया जायेगा</string>
+    <string name="mpin_accept">अगला</string>
+
+
+    <!--profileinfoscreen-->
+    <string name="pis_full_name">पूरा नाम</string>
+    <string name="pis_gender">लिंग</string>
+    <string name="pis_gender_male">नर</string>
+    <string name="pis_gender_female">महिला</string>
+    <string name="pis_gender_others">अन्य</string>
+    <string name="pis_date_of_birth">जन्म की तारीख</string>
+    <string name="pis_state">राज्य / केन्द्र शासित प्रदेशों</string>
+    <string name="pis_state_select">चुनते हैं</string>
+    <string name="pis_email">ईमेल पता</string>
+    <string name="pis_alernate_mobile">वैकल्पिक मोबाइल नंबर</string>
+    <string name="pis_skip">छोड़ें</string>
+    <string name="pis_proceed">सहेजें और आगे बढ़ें</string>
+
+    <!--homescreen-->
+    <string name="hs_tab_home">होम</string>
+    <string name="hs_tab_complain">शिकायत</string>
+    <string name="hs_tab_campaign">अभियान</string>
+    <string name="hs_tab_calendar">कैलेंडर</string>
+    
+    <!--homemenu-->
+    <string name="hs_menu_home">होम</string>
+    <string name="hs_menu_news">समाचार अद्यतन</string>
+    <string name="hs_menu_dashboard">डैशबोर्ड</string>
+    <string name="hs_menu_myconnection">मेरे कनेक्शन</string>
+    <string name="hs_menu_mycommunication">मेरा संचार</string>
+    <string name="hs_menu_calendar">कैलेंडर</string>
+    <string name="hs_menu_reward">पुरस्कार और पेशकश</string>
+    <string name="hs_menu_info">जानकारी-निर्देशिका</string>
+    <string name="hs_menu_social">सामाजिक बज़</string>
+    <string name="hs_menu_report">रिपोर्ट और स्थिति</string>
+    <string name="hs_menu_settings">सेटिंग</string>
+    <string name="hs_menu_help">मदद समर्थन</string>
+    <string name="hs_menu_logout">लोग आउट</string>
+
+</resources>

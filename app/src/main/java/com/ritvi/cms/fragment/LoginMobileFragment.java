@@ -18,7 +18,7 @@ import com.ritvi.cms.Util.Pref;
 import com.ritvi.cms.Util.StringUtils;
 import com.ritvi.cms.Util.TagUtils;
 import com.ritvi.cms.Util.ToastClass;
-import com.ritvi.cms.activity.HomeActivity;
+import com.ritvi.cms.activity.CitizenHomeActivity;
 import com.ritvi.cms.activity.ProfileInfoActivity;
 import com.ritvi.cms.pojo.user.UserProfilePOJO;
 import com.ritvi.cms.webservice.WebServiceBase;
@@ -73,7 +73,7 @@ public class LoginMobileFragment extends Fragment implements WebServicesCallBack
         if(et_mobile_number.getText().toString().length()>0&&et_mpin.getText().toString().length()>0) {
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
             nameValuePairs.add(new BasicNameValuePair("login_request", "LOGIN_WITH_MPIN"));
-            nameValuePairs.add(new BasicNameValuePair("mobile", et_mobile_number.getText().toString()));
+            nameValuePairs.add(new BasicNameValuePair("mobile", "+91"+et_mobile_number.getText().toString()));
             nameValuePairs.add(new BasicNameValuePair("mpin", et_mpin.getText().toString()));
             new WebServiceBase(nameValuePairs, getActivity(), this, CALL_LOGIN_API, true).execute(WebServicesUrls.LOGIN_URL);
         }else{
@@ -97,7 +97,7 @@ public class LoginMobileFragment extends Fragment implements WebServicesCallBack
                 String user_profile=jsonObject.optJSONObject("user_detail").optJSONObject("user_profile").toString();
                 Gson gson=new Gson();
                 UserProfilePOJO userProfilePOJO=gson.fromJson(user_profile,UserProfilePOJO.class);
-                Pref.SaveUserProfile(getActivity(),userProfilePOJO);
+                Pref.SaveUserProfile(getActivity(),userProfilePOJO,user_profile);
                 Pref.SetBooleanPref(getActivity(), StringUtils.IS_LOGIN,true);
                 if(userProfilePOJO.getUserFullName().equals("")||userProfilePOJO.getUserGender().equals("0")||
                         userProfilePOJO.getUserDateOfBirth().equals("0000-00-00")||userProfilePOJO.getUserState().equals("")){
@@ -106,7 +106,7 @@ public class LoginMobileFragment extends Fragment implements WebServicesCallBack
                     getActivity().finishAffinity();
                 }else{
                     Pref.SetBooleanPref(getActivity(), StringUtils.IS_PROFILE_COMPLETED,true);
-                    startActivity(new Intent(getActivity(), HomeActivity.class));
+                    startActivity(new Intent(getActivity(), CitizenHomeActivity.class));
                     getActivity().finishAffinity();
                 }
             }

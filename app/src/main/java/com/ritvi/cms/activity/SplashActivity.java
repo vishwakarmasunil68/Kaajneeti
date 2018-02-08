@@ -10,12 +10,14 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.ritvi.cms.R;
+import com.ritvi.cms.Util.Pref;
+import com.ritvi.cms.Util.StringUtils;
 import com.ritvi.cms.Util.TagUtils;
 
 import java.security.MessageDigest;
@@ -25,11 +27,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends LocalizationActivity {
     private static int SPLASH_TIME_OUT = 2000;
     private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         if (checkAndRequestPermissions()) {
@@ -38,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
     }
 
@@ -195,9 +198,34 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void makesplash() {
-        printHashKey();
-        startActivity(new Intent(SplashActivity.this, ChooseLanguageActivity.class));
-        finish();
+        if (Pref.GetBooleanPref(getApplicationContext(), StringUtils.IS_LOGIN, false)) {
+            if (Pref.GetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED, false) ||
+                    Pref.GetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_SKIPPED, false)) {
+
+                switch (Pref.GetIntPref(getApplicationContext(), StringUtils.USER_TYPE, 0)) {
+                    case 0:
+                        startActivity(new Intent(SplashActivity.this, CitizenHomeActivity.class));
+                        finish();
+                        break;
+                    case 1:
+                        startActivity(new Intent(SplashActivity.this, CitizenHomeActivity.class));
+                        finish();
+                        break;
+                    case 2:
+                        startActivity(new Intent(SplashActivity.this, LeaderHomeActivity.class));
+                        finish();
+                        break;
+                }
+
+
+            } else {
+                startActivity(new Intent(SplashActivity.this, ProfileInfoActivity.class));
+                finish();
+            }
+        } else {
+            startActivity(new Intent(SplashActivity.this, ChooseLanguageActivity.class));
+            finish();
+        }
     }
 
     public void printHashKey() {
@@ -208,7 +236,7 @@ public class SplashActivity extends AppCompatActivity {
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
-                Log.d(TagUtils.getTag(), "KeyHash:-"+Base64.encodeToString(md.digest(), Base64.DEFAULT));
+                Log.d(TagUtils.getTag(), "KeyHash:-" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
         } catch (PackageManager.NameNotFoundException e) {
 

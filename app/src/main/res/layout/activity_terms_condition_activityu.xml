@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="वापस"
+                android:text="@string/back"
                 android:textColor="#0d558f"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:padding="5dp"
-            android:text="में सभी नियम और शर्तो से सहेमत हु" />
+            android:text="@string/tmc_terms" />
 
         <Button
             android:id="@+id/btn_accept"
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:background="@null"
-            android:text="अगला >" />
+            android:text="@string/tmc_accept" />
 
     </LinearLayout>
 

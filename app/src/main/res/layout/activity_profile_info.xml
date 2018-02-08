@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SKIP"
+                android:textColor="#FFFFFF"
                 android:layout_marginRight="7dp"/>
 
         </LinearLayout>
@@ -55,7 +56,7 @@
                     android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Full Name" />
+                    android:hint="@string/pis_full_name" />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -70,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Gender"
+                    android:text="@string/pis_gender"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -86,21 +87,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Male" />
+                        android:text="@string/pis_gender_male" />
 
                     <RadioButton
                         android:id="@+id/rb_female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Female" />
+                        android:text="@string/pis_gender_female" />
 
                     <RadioButton
                         android:id="@+id/rb_other"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Other" />
+                        android:text="@string/pis_gender_others" />
                 </RadioGroup>
 
             </LinearLayout>
@@ -122,7 +123,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:editable="false"
-                        android:hint="Date of Birth" />
+                        android:hint="@string/pis_date_of_birth" />
                 </android.support.design.widget.TextInputLayout>
 
                 <ImageView
@@ -143,7 +144,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="State/UT"
+                    android:text="@string/pis_state"
                     android:textStyle="bold"
                     android:layout_weight="1"/>
 
@@ -151,7 +152,7 @@
                     android:id="@+id/tv_state_select"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="select"/>
+                    android:text="@string/pis_state_select"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -176,7 +177,7 @@
                     android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email Address" />
+                    android:hint="@string/pis_email" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -187,7 +188,7 @@
                     android:id="@+id/et_alternate_mobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Alternate Mobile Number" />
+                    android:hint="@string/pis_alernate_mobile" />
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
@@ -199,7 +200,7 @@
         android:id="@+id/btn_accept"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:text="SAVE &amp; PROCEED"
+        android:text="@string/pis_proceed"
         android:textSize="16sp"
         android:background="@drawable/btn_next"
         android:textColor="#FFFFFF"

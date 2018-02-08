@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:gravity="center"
-    tools:context="com.ritvi.cms.activity.HomeActivity">
+    tools:context="com.ritvi.cms.activity.CitizenHomeActivity">
 
     <include
         android:id="@+id/include_home"

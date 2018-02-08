@@ -3,7 +3,6 @@ package com.ritvi.cms.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.google.gson.Gson;
 import com.ritvi.cms.R;
 import com.ritvi.cms.Util.Constants;
@@ -40,7 +40,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProfileInfoActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, WebServicesCallBack {
+public class ProfileInfoActivity extends LocalizationActivity implements DatePickerDialog.OnDateSetListener, WebServicesCallBack {
 
 
     private static final String CALL_PROFILE_SAVE_API = "call_profile_save_api";
@@ -75,7 +75,7 @@ public class ProfileInfoActivity extends AppCompatActivity implements DatePicker
     private final int STATE_SELECT_INTENT = 1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_info);
         ButterKnife.bind(this);
@@ -109,7 +109,7 @@ public class ProfileInfoActivity extends AppCompatActivity implements DatePicker
         tv_skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ProfileInfoActivity.this, HomeActivity.class));
+                startActivity(new Intent(ProfileInfoActivity.this, CitizenHomeActivity.class));
                 finish();
             }
         });
@@ -159,13 +159,14 @@ public class ProfileInfoActivity extends AppCompatActivity implements DatePicker
         UserProfilePOJO userProfilePOJO=Pref.GetUserProfile(this);
 
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
-        nameValuePairs.add(new BasicNameValuePair("request_action", "UPDATE_PROFILE"));
+        nameValuePairs.add(new BasicNameValuePair("request_action", "UPDATE_PROFILE_LOGIN"));
         nameValuePairs.add(new BasicNameValuePair("user_id", userProfilePOJO.getUserId()));
         nameValuePairs.add(new BasicNameValuePair("fullname", et_name.getText().toString()));
         nameValuePairs.add(new BasicNameValuePair("gender", gender));
         nameValuePairs.add(new BasicNameValuePair("date_of_birth", date));
         nameValuePairs.add(new BasicNameValuePair("state", tv_state_select.getText().toString()));
         nameValuePairs.add(new BasicNameValuePair("email", et_email.getText().toString()));
+        nameValuePairs.add(new BasicNameValuePair("mobile", userProfilePOJO.getUserMobile()));
         nameValuePairs.add(new BasicNameValuePair("alt_mobile", et_alternate_mobile.getText().toString()));
         new WebServiceBase(nameValuePairs, this, this, CALL_PROFILE_SAVE_API, true).execute(WebServicesUrls.EDIT_PROFILE);
     }
@@ -220,11 +221,11 @@ public class ProfileInfoActivity extends AppCompatActivity implements DatePicker
                 String user_profile = jsonObject.optJSONObject("user_detail").optJSONObject("user_profile").toString();
                 Gson gson = new Gson();
                 UserProfilePOJO userProfilePOJO = gson.fromJson(user_profile, UserProfilePOJO.class);
-                Pref.SaveUserProfile(getApplicationContext(), userProfilePOJO);
+                Pref.SaveUserProfile(getApplicationContext(), userProfilePOJO,user_profile);
                 Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_LOGIN, true);
                 Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED, true);
                 Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_SKIPPED, true);
-                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                startActivity(new Intent(getApplicationContext(), CitizenHomeActivity.class));
                 finishAffinity();
             }
         } catch (Exception e) {

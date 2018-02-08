@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="वापस"
+                android:text="@string/back"
                 android:textColor="#0d558f"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -60,7 +60,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="पंजीकरण / रजिस्ट्रेशन"
+                    android:text="@string/reg_txt"
                     android:textColor="#105b9e"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -73,7 +73,7 @@
                     android:layout_margin="30dp"
                     android:layout_marginTop="25dp"
                     android:gravity="center"
-                    android:text="चलिए आपको 10 अंको वाले मोबाइल नंबर के सत्यापन के साथ शुरू करते ह"
+                    android:text="@string/reg_otp_start"
                     android:textColor="#000000"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
-                    android:text="हम सत्यापन के लिए इस नंबर पर OTP भेजेंगे"
+                    android:text="@string/reg_otp_send"
                     android:textColor="#000000"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -115,7 +115,7 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:gravity="center_vertical"
-                            android:hint="Number"
+                            android:hint="@string/reg_et_number"
                             android:maxLength="10"
                             android:inputType="number"
                             android:textColor="#848484"
@@ -142,7 +142,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="यद् रखे, यह मोबाइल नंबर लोग इन परिक्रिया के लिए इस्तेमाल किया जायेगा" />
+                    android:text="@string/reg_note" />
 
 
                 <Button
@@ -153,7 +153,7 @@
                     android:layout_marginRight="70dp"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/btn_next"
-                    android:text="अगला"
+                    android:text="@string/reg_next"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp" />
 

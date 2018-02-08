@@ -5,5 +5,5 @@ package com.ritvi.cms.webservice;
  */
 
 public interface MsgPassInterface {
-    public void onMsgPassed(String apicall, Object object);
+    public void onMsgPassed(String response);
 }

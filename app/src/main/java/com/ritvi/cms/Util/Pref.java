@@ -2,8 +2,13 @@ package com.ritvi.cms.Util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
+import com.google.gson.Gson;
+import com.ritvi.cms.pojo.user.ProfileRolePOJO;
 import com.ritvi.cms.pojo.user.UserProfilePOJO;
+
+import org.json.JSONObject;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -78,7 +83,7 @@ public class Pref {
         return sp.getString("devicetoken", defValue);
     }
 
-    public static void SaveUserProfile(Context context, UserProfilePOJO userProfilePOJO) {
+    public static void SaveUserProfile(Context context, UserProfilePOJO userProfilePOJO,String user_profile) {
         if (userProfilePOJO != null) {
             SetStringPref(context, StringUtils.USER_ID, userProfilePOJO.getUserId());
             SetStringPref(context, StringUtils.USER_PROFILE_ID, userProfilePOJO.getUserProfileId());
@@ -88,6 +93,7 @@ public class Pref {
             SetStringPref(context, StringUtils.USER_EMAIL, userProfilePOJO.getUserEmail());
             SetStringPref(context, StringUtils.USER_PHONE_COUNTRY, userProfilePOJO.getUserPhonecountry());
             SetStringPref(context, StringUtils.USER_MOBILE, userProfilePOJO.getUserMobile());
+            SetStringPref(context, StringUtils.USER_ALT_MOBILE, userProfilePOJO.getUser_alt_mobile());
             SetStringPref(context, StringUtils.USER_CREATED_ON, userProfilePOJO.getUserCreatedon());
             SetStringPref(context, StringUtils.USER_ADDRESS, userProfilePOJO.getUserAddress());
             SetStringPref(context, StringUtils.USER_CITY, userProfilePOJO.getUserCity());
@@ -96,7 +102,33 @@ public class Pref {
             SetStringPref(context, StringUtils.USER_DATE_OF_BIRTH, userProfilePOJO.getUserDateOfBirth());
             SetStringPref(context, StringUtils.USER_GENDER, userProfilePOJO.getUserGender());
             SetStringPref(context, StringUtils.USER_LOGIN_STATUS, userProfilePOJO.getUserLoginStatus());
+
+            try {
+                if (userProfilePOJO.getProfiles().getC_profile_detail() != null) {
+                Log.d(TagUtils.getTag(), "citizen profile present");
+                    SetStringPref(context, StringUtils.C_PROFILE_DETAIL, new JSONObject(user_profile).optJSONObject("profiles").optJSONObject("c_profile_detail").toString());
+                }
+
+                if (userProfilePOJO.getProfiles().getL_profile_detail() != null) {
+                    Log.d(TagUtils.getTag(), "leader profile present");
+                    SetStringPref(context, StringUtils.L_PROFILE_DETAIL, new JSONObject(user_profile).optJSONObject("profiles").optJSONObject("l_profile_detail").toString());
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
+    }
+
+    public static ProfileRolePOJO getProfileRolePOJO(String profileRole){
+        try{
+            Gson gson=new Gson();
+            ProfileRolePOJO profileRolePOJO=gson.fromJson(profileRole,ProfileRolePOJO.class);
+            return profileRolePOJO;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static UserProfilePOJO GetUserProfile(Context context) {
@@ -110,6 +142,7 @@ public class Pref {
                 GetStringPref(context, StringUtils.USER_EMAIL, ""),
                 GetStringPref(context, StringUtils.USER_PHONE_COUNTRY, ""),
                 GetStringPref(context, StringUtils.USER_MOBILE, ""),
+                GetStringPref(context, StringUtils.USER_ALT_MOBILE, ""),
                 GetStringPref(context, StringUtils.USER_CREATED_ON, ""),
                 GetStringPref(context, StringUtils.USER_ADDRESS, ""),
                 GetStringPref(context, StringUtils.USER_CITY, ""),

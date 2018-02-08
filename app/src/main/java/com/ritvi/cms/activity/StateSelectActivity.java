@@ -3,7 +3,6 @@ package com.ritvi.cms.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
+import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.ritvi.cms.R;
 import com.ritvi.cms.adapter.StateAdapter;
 
@@ -20,7 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StateSelectActivity extends AppCompatActivity {
+public class StateSelectActivity extends LocalizationActivity {
     List<String> stateList = new ArrayList<>();
 
     @BindView(R.id.rv_places)
@@ -29,7 +29,7 @@ public class StateSelectActivity extends AppCompatActivity {
     EditText et_place_search;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_state_select);
         ButterKnife.bind(this);
