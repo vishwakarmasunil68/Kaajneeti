@@ -104,7 +104,7 @@ public class AddCommunication extends LocalizationActivity implements WebService
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(leaderPOJOS.size()>0){
-                    leader_id=leaderPOJOS.get(i).getUser_id();
+                    leader_id=leaderPOJOS.get(i).getUp_user_profile_id();
                 }
             }
         });
@@ -123,6 +123,7 @@ public class AddCommunication extends LocalizationActivity implements WebService
             communicationSubmittionPOJO.setC_mobile(et_mobile_number.getText().toString());
             communicationSubmittionPOJO.setC_email(et_email.getText().toString());
             communicationSubmittionPOJO.setC_aadhaar_number(et_aadhar.getText().toString());
+            communicationSubmittionPOJO.setLeader_id(leader_id);
             Intent intent=new Intent(AddCommunication.this, AddCommunicationAddressActivity.class);
             intent.putExtra("complaintPOJO",communicationSubmittionPOJO);
             startActivity(intent);
@@ -168,7 +169,7 @@ public class AddCommunication extends LocalizationActivity implements WebService
     public void callLeaderAPI() {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("request_action", "MY_FAVOURITE_LEADER"));
-        nameValuePairs.add(new BasicNameValuePair("user_id", Pref.GetUserProfile(getApplicationContext()).getUserId()));
+        nameValuePairs.add(new BasicNameValuePair("c_profile_id", Pref.GetUserProfile(getApplicationContext()).getUserId()));
         new WebServiceBase(nameValuePairs, this, this, CALL_ALL_LEADER, false).execute(WebServicesUrls.USER_ADMIN_PROCESS);
     }
 

@@ -27,6 +27,7 @@ import com.ritvi.cms.Util.Pref;
 import com.ritvi.cms.Util.StringUtils;
 import com.ritvi.cms.Util.TagUtils;
 import com.ritvi.cms.adapter.ViewPagerWithTitleAdapter;
+import com.ritvi.cms.fragment.ComplaintFragment;
 import com.ritvi.cms.fragment.HomeFragment;
 import com.ritvi.cms.pojo.user.UserProfilePOJO;
 import com.ritvi.cms.webservice.AdapterWebService;
@@ -54,6 +55,9 @@ public class CitizenHomeActivity extends LocalizationActivity {
     ViewPager viewPager;
     @BindView(R.id.tabs)
     TabLayout tabs;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+
     Spinner spinner_profile;
     UserProfilePOJO userProfilePOJO;
 
@@ -71,7 +75,7 @@ public class CitizenHomeActivity extends LocalizationActivity {
         ButterKnife.bind(this);
 
         userProfilePOJO = Pref.GetUserProfile(getApplicationContext());
-
+        tv_title.setText("Home");
         settingNavDrawer();
         setUpTabswithViewPager();
         setupTabIcons();
@@ -92,11 +96,47 @@ public class CitizenHomeActivity extends LocalizationActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerWithTitleAdapter adapter = new ViewPagerWithTitleAdapter(getSupportFragmentManager());
+        final ComplaintFragment complaintFragment = new ComplaintFragment();
         adapter.addFrag(new HomeFragment(), getResources().getString(R.string.hs_tab_home));
-        adapter.addFrag(new HomeFragment(), getResources().getString(R.string.hs_tab_complain));
+        adapter.addFrag(complaintFragment, getResources().getString(R.string.hs_tab_complain));
         adapter.addFrag(new HomeFragment(), getResources().getString(R.string.hs_tab_campaign));
         adapter.addFrag(new HomeFragment(), getResources().getString(R.string.hs_tab_calendar));
         viewPager.setAdapter(adapter);
+
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        tv_title.setText("Home");
+                        break;
+                    case 1:
+                        complaintFragment.callComplaintAPI();
+                        tv_title.setText("Complaint");
+                        break;
+                    case 2:
+                        tv_title.setText("Campaign");
+                        break;
+                    case 3:
+                        tv_title.setText("calendar");
+                        break;
+                    default:
+                        tv_title.setText("Home");
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void settingNavDrawer() {
@@ -110,6 +150,15 @@ public class CitizenHomeActivity extends LocalizationActivity {
         spinner_profile = headerLayout.findViewById(R.id.spinner_profile);
         TextView tv_header_title = headerLayout.findViewById(R.id.tv_header_title);
         tv_header_title.setText(userProfilePOJO.getUserFullName());
+
+        ImageView cv_profile_pic=headerLayout.findViewById(R.id.cv_profile_pic);
+
+        cv_profile_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CitizenHomeActivity.this,ProfileInfoActivity.class).putExtra("user_type","citizen"));
+            }
+        });
 
         spinner_profile.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -183,7 +232,7 @@ public class CitizenHomeActivity extends LocalizationActivity {
                         UserProfilePOJO userProfilePOJO = gson.fromJson(user_profile, UserProfilePOJO.class);
                         Pref.SaveUserProfile(getApplicationContext(), userProfilePOJO, user_profile);
                         Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_LOGIN, true);
-                        Pref.SetIntPref(getApplicationContext(),StringUtils.USER_TYPE,Constants.USER_TYPE_LEADER);
+                        Pref.SetIntPref(getApplicationContext(), StringUtils.USER_TYPE, Constants.USER_TYPE_LEADER);
                         startActivity(new Intent(CitizenHomeActivity.this, LeaderHomeActivity.class));
                         finishAffinity();
 

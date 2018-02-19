@@ -31,6 +31,7 @@
         android:text="Your Application has been successfully submitted and is under review"/>
 
     <TextView
+        android:id="@+id/tv_complaint_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Complaint ID : SM0707G"/>

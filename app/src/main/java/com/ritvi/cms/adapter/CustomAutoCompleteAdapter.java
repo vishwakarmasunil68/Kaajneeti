@@ -38,7 +38,7 @@ public class CustomAutoCompleteAdapter extends ArrayAdapter<LeaderPOJO> {
         }
         TextView tv_leader_name = (TextView) convertView.findViewById(R.id.tv_leader_name);
         TextView tv_leader_email = (TextView) convertView.findViewById(R.id.tv_leader_email);
-        tv_leader_name.setText(customer.getUser_fullname());
+        tv_leader_name.setText(customer.getUp_first_name()+" "+customer.getUp_last_name());
         tv_leader_email.setText("email");
 
         return convertView;
@@ -54,7 +54,7 @@ public class CustomAutoCompleteAdapter extends ArrayAdapter<LeaderPOJO> {
         @Override
         public CharSequence convertResultToString(Object resultValue) {
             LeaderPOJO customer = (LeaderPOJO) resultValue;
-            return customer.getUser_fullname();
+            return customer.getUp_first_name()+" "+customer.getUp_last_name();
         }
 
         @Override
@@ -62,7 +62,7 @@ public class CustomAutoCompleteAdapter extends ArrayAdapter<LeaderPOJO> {
             if (constraint != null) {
                 suggestions.clear();
                 for (LeaderPOJO people : tempCustomer) {
-                    if (people.getUser_fullname().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                    if (people.getUp_first_name().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
                         suggestions.add(people);
                     }
                 }

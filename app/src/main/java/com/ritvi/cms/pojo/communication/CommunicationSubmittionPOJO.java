@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class CommunicationSubmittionPOJO implements Serializable{
     String user_id;
+    String leader_id;
     String self_other_group;
     String c_name;
     String c_father_name;
@@ -186,5 +187,13 @@ public class CommunicationSubmittionPOJO implements Serializable{
 
     public void setC_description(String c_description) {
         this.c_description = c_description;
+    }
+
+    public String getLeader_id() {
+        return leader_id;
+    }
+
+    public void setLeader_id(String leader_id) {
+        this.leader_id = leader_id;
     }
 }

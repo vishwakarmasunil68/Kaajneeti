@@ -55,7 +55,7 @@ public class VoterComplaintAdapter extends RecyclerView.Adapter<VoterComplaintAd
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        holder.tv_leader_name.setText(items.get(position).getUser_fullname());
+        holder.tv_leader_name.setText(items.get(position).getUp_first_name()+" "+items.get(position).getUp_last_name());
         holder.tv_leader_email.setText("email");
 
 
@@ -83,7 +83,7 @@ public class VoterComplaintAdapter extends RecyclerView.Adapter<VoterComplaintAd
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("request_action","SET_AS_FAVOURITE"));
         nameValuePairs.add(new BasicNameValuePair("user_id", Pref.GetUserProfile(activity.getApplicationContext()).getUserId()));
-        nameValuePairs.add(new BasicNameValuePair("admin_id",leaderPOJO.getUser_id()));
+        nameValuePairs.add(new BasicNameValuePair("admin_id",leaderPOJO.getUp_user_profile_id()));
 
         new AdapterWebService(activity, nameValuePairs, false, new MsgPassInterface() {
             @Override

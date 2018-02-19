@@ -38,6 +38,7 @@
             android:checked="true"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/hs_menu_calendar" />
+
         <item
             android:id="@+id/nav_reward"
             android:checked="true"

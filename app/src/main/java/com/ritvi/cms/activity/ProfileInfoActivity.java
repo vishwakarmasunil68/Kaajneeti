@@ -21,6 +21,7 @@ import com.ritvi.cms.Util.Constants;
 import com.ritvi.cms.Util.Pref;
 import com.ritvi.cms.Util.StringUtils;
 import com.ritvi.cms.Util.TagUtils;
+import com.ritvi.cms.pojo.user.ProfileRolePOJO;
 import com.ritvi.cms.pojo.user.UserProfilePOJO;
 import com.ritvi.cms.webservice.WebServiceBase;
 import com.ritvi.cms.webservice.WebServicesCallBack;
@@ -44,6 +45,7 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
 
 
     private static final String CALL_PROFILE_SAVE_API = "call_profile_save_api";
+    private static final String CALL_PROFILE_GET_API = "call_profile_get_api";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.iv_calendar)
@@ -74,6 +76,8 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
 
     private final int STATE_SELECT_INTENT = 1;
 
+    String user_type = "";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +87,14 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            user_type = bundle.getString("user_type");
+        }
+
+        autoFillForm();
 
         iv_calendar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +135,41 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
 
     }
 
+    public void autoFillForm() {
+        if (user_type.length() == 0) {
+
+        } else {
+//            if (user_type.equals("citizen")) {
+                ProfileRolePOJO profileRolePOJO = Pref.getProfileRolePOJO(Pref.GetStringPref(getApplicationContext(), StringUtils.C_PROFILE_DETAIL, ""));
+                et_name.setText(profileRolePOJO.getUpFirstName()+" "+profileRolePOJO.getUpLastName());
+                switch (Pref.GetStringPref(getApplicationContext(), StringUtils.USER_GENDER, "")) {
+                    case "1":
+                        rb_male.setChecked(true);
+                        break;
+                    case "2":
+                        rb_female.setChecked(true);
+                        break;
+                    default:
+                        rb_other.setChecked(true);
+                        break;
+                }
+
+                et_birth_date.setText(Pref.GetStringPref(getApplicationContext(),StringUtils.USER_DATE_OF_BIRTH,""));
+                et_email.setText(Pref.GetStringPref(getApplicationContext(),StringUtils.USER_EMAIL,""));
+//            } else {
+//
+//            }
+        }
+    }
+
+    public void callProfileGetAPI() {
+        ProfileRolePOJO profileRolePOJO = Pref.getProfileRolePOJO(Pref.GetStringPref(getApplicationContext(), StringUtils.C_PROFILE_DETAIL, ""));
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("request_action", "GET_PROFILE_CITIZEN"));
+        nameValuePairs.add(new BasicNameValuePair("c_profile_id", profileRolePOJO.getUpUserProfileId()));
+        new WebServiceBase(nameValuePairs, this, this, CALL_PROFILE_GET_API, true).execute(WebServicesUrls.EDIT_PROFILE);
+    }
+
     public void callProfileSaveAPI() {
 
         String gender = "";
@@ -142,21 +189,21 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
             }
         }
 
-        String date="";
+        String date = "";
 
 
-        if(et_birth_date.getText().toString().length()>0) {
-            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
+        if (et_birth_date.getText().toString().length() > 0) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             try {
                 Date d1 = simpleDateFormat.parse(et_birth_date.getText().toString());
-                SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-                date=sdf.format(d1);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                date = sdf.format(d1);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
 
-        UserProfilePOJO userProfilePOJO=Pref.GetUserProfile(this);
+        UserProfilePOJO userProfilePOJO = Pref.GetUserProfile(this);
 
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("request_action", "UPDATE_PROFILE_LOGIN"));
@@ -211,6 +258,17 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
             case CALL_PROFILE_SAVE_API:
                 parseProfileResponse(response);
                 break;
+            case CALL_PROFILE_GET_API:
+                parseProfileGetResponse(response);
+                break;
+        }
+    }
+
+    public void parseProfileGetResponse(String response) {
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -221,11 +279,15 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
                 String user_profile = jsonObject.optJSONObject("user_detail").optJSONObject("user_profile").toString();
                 Gson gson = new Gson();
                 UserProfilePOJO userProfilePOJO = gson.fromJson(user_profile, UserProfilePOJO.class);
-                Pref.SaveUserProfile(getApplicationContext(), userProfilePOJO,user_profile);
+                Pref.SaveUserProfile(getApplicationContext(), userProfilePOJO, user_profile);
                 Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_LOGIN, true);
                 Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED, true);
                 Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_SKIPPED, true);
-                startActivity(new Intent(getApplicationContext(), CitizenHomeActivity.class));
+                if(user_type.length()==0||user_type.equals("citizen")) {
+                    startActivity(new Intent(getApplicationContext(), CitizenHomeActivity.class));
+                }else{
+                    startActivity(new Intent(getApplicationContext(), LeaderHomeActivity.class));
+                }
                 finishAffinity();
             }
         } catch (Exception e) {

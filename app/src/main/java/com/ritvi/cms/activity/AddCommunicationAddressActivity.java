@@ -21,6 +21,7 @@ import com.ritvi.cms.webservice.WebServicesUrls;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -97,7 +98,8 @@ public class AddCommunicationAddressActivity extends LocalizationActivity implem
 
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("request_action", "SAVE_COMPLAINT"));
-        nameValuePairs.add(new BasicNameValuePair("user_id", communicationSubmittionPOJO.getUser_id()));
+        nameValuePairs.add(new BasicNameValuePair("c_profile_id", communicationSubmittionPOJO.getUser_id()));
+        nameValuePairs.add(new BasicNameValuePair("l_profile_id", communicationSubmittionPOJO.getLeader_id()));
         nameValuePairs.add(new BasicNameValuePair("self_other_group", communicationSubmittionPOJO.getSelf_other_group()));
         nameValuePairs.add(new BasicNameValuePair("c_name", communicationSubmittionPOJO.getC_name()));
         nameValuePairs.add(new BasicNameValuePair("c_father_name", communicationSubmittionPOJO.getC_father_name()));
@@ -135,8 +137,19 @@ public class AddCommunicationAddressActivity extends LocalizationActivity implem
         Log.d(TagUtils.getTag(), apicall + ":-" + response);
         switch (apicall) {
             case CALL_FORM_SUBMITTION:
-                startActivity(new Intent(AddCommunicationAddressActivity.this, ApplicationSubmittedActivity.class));
+                parseComplaintResponse(response);
                 break;
+        }
+    }
+
+    public void parseComplaintResponse(String response){
+        try{
+            JSONObject jsonObject=new JSONObject(response);
+            if(jsonObject.optString("status").equals("success")){
+                startActivity(new Intent(AddCommunicationAddressActivity.this, ApplicationSubmittedActivity.class).putExtra("complaint_id",jsonObject.optString("complaint_id")));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

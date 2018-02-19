@@ -27,7 +27,9 @@ import com.ritvi.cms.Util.Pref;
 import com.ritvi.cms.Util.StringUtils;
 import com.ritvi.cms.Util.TagUtils;
 import com.ritvi.cms.adapter.ViewPagerWithTitleAdapter;
+import com.ritvi.cms.fragment.ComplaintFragment;
 import com.ritvi.cms.fragment.HomeFragment;
+import com.ritvi.cms.pojo.user.ProfileRolePOJO;
 import com.ritvi.cms.pojo.user.UserProfilePOJO;
 import com.ritvi.cms.webservice.AdapterWebService;
 import com.ritvi.cms.webservice.MsgPassInterface;
@@ -54,6 +56,9 @@ public class LeaderHomeActivity extends LocalizationActivity {
     ViewPager viewPager;
     @BindView(R.id.tabs)
     TabLayout tabs;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+
     Spinner spinner_profile;
     UserProfilePOJO userProfilePOJO;
 
@@ -64,6 +69,8 @@ public class LeaderHomeActivity extends LocalizationActivity {
             R.mipmap.ic_launcher
     };
 
+    public ProfileRolePOJO leaderProfile;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +78,7 @@ public class LeaderHomeActivity extends LocalizationActivity {
         ButterKnife.bind(this);
 
         userProfilePOJO = Pref.GetUserProfile(getApplicationContext());
-
+        leaderProfile=Pref.getProfileRolePOJO(Pref.GetStringPref(getApplicationContext(), StringUtils.L_PROFILE_DETAIL,""));
         settingNavDrawer();
         setUpTabswithViewPager();
         setupTabIcons();
@@ -91,12 +98,48 @@ public class LeaderHomeActivity extends LocalizationActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
+        final ComplaintFragment complaintFragment = new ComplaintFragment();
         ViewPagerWithTitleAdapter adapter = new ViewPagerWithTitleAdapter(getSupportFragmentManager());
         adapter.addFrag(new HomeFragment(), getResources().getString(R.string.hs_tab_home));
-        adapter.addFrag(new HomeFragment(), getResources().getString(R.string.hs_tab_complain));
+        adapter.addFrag(complaintFragment, getResources().getString(R.string.hs_tab_complain));
         adapter.addFrag(new HomeFragment(), getResources().getString(R.string.hs_tab_campaign));
         adapter.addFrag(new HomeFragment(), getResources().getString(R.string.hs_tab_calendar));
         viewPager.setAdapter(adapter);
+
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        tv_title.setText("Home");
+                        break;
+                    case 1:
+                        tv_title.setText("Complain");
+                        complaintFragment.callLeaderComplaintAPI();
+                        break;
+                    case 2:
+                        tv_title.setText("Compaign");
+                        break;
+                    case 3:
+                        tv_title.setText("Calendar");
+                        break;
+                    default:
+                        tv_title.setText("Home");
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void settingNavDrawer() {
@@ -110,6 +153,16 @@ public class LeaderHomeActivity extends LocalizationActivity {
         spinner_profile = headerLayout.findViewById(R.id.spinner_profile);
         TextView tv_header_title = headerLayout.findViewById(R.id.tv_header_title);
         tv_header_title.setText(userProfilePOJO.getUserFullName());
+
+        ImageView cv_profile_pic=headerLayout.findViewById(R.id.cv_profile_pic);
+
+        cv_profile_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LeaderHomeActivity.this,ProfileInfoActivity.class).putExtra("user_type","leader"));
+            }
+        });
+
         spinner_profile.setSelection(1);
         spinner_profile.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -184,7 +237,7 @@ public class LeaderHomeActivity extends LocalizationActivity {
                         UserProfilePOJO userProfilePOJO = gson.fromJson(user_profile, UserProfilePOJO.class);
                         Pref.SaveUserProfile(getApplicationContext(), userProfilePOJO, user_profile);
                         Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_LOGIN, true);
-                        Pref.SetIntPref(getApplicationContext(),StringUtils.USER_TYPE,Constants.USER_TYPE_CITIZEN);
+                        Pref.SetIntPref(getApplicationContext(), StringUtils.USER_TYPE, Constants.USER_TYPE_CITIZEN);
                         startActivity(new Intent(LeaderHomeActivity.this, CitizenHomeActivity.class));
                         finishAffinity();
                     }

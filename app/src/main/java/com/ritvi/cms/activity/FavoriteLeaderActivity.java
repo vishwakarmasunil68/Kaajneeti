@@ -79,7 +79,7 @@ public class FavoriteLeaderActivity extends LocalizationActivity implements WebS
     public void callLeaderAPI() {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("request_action", "MY_FAVOURITE_LEADER"));
-        nameValuePairs.add(new BasicNameValuePair("user_id", Pref.GetUserProfile(getApplicationContext()).getUserId()));
+        nameValuePairs.add(new BasicNameValuePair("c_profile_id", Pref.GetUserProfile(getApplicationContext()).getUserId()));
         new WebServiceBase(nameValuePairs, this, this, CALL_ALL_LEADER, true).execute(WebServicesUrls.USER_ADMIN_PROCESS);
     }
 
