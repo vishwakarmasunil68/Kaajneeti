@@ -74,7 +74,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
     public void callComplaintAPI(VoterComplaintPOJO complaintPOJO){
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("request_action","COMPLAINT_VIEW"));
-        nameValuePairs.add(new BasicNameValuePair("c_profile_id", Pref.GetUserProfile(activity.getApplicationContext()).getUserId()));
+        nameValuePairs.add(new BasicNameValuePair("c_profile_id", Pref.GetUserProfile(activity.getApplicationContext()).getCitizenId()));
         nameValuePairs.add(new BasicNameValuePair("complaint_id",complaintPOJO.getComplaint_id()));
 
         new AdapterWebService(activity, nameValuePairs, true, new MsgPassInterface() {

@@ -82,7 +82,7 @@ public class VoterComplaintAdapter extends RecyclerView.Adapter<VoterComplaintAd
     public void callFavoriteAPI(LeaderPOJO leaderPOJO, final ImageView favorite_image) {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("request_action","SET_AS_FAVOURITE"));
-        nameValuePairs.add(new BasicNameValuePair("user_id", Pref.GetUserProfile(activity.getApplicationContext()).getUserId()));
+        nameValuePairs.add(new BasicNameValuePair("user_id", Pref.GetUserProfile(activity.getApplicationContext()).getCitizenId()));
         nameValuePairs.add(new BasicNameValuePair("admin_id",leaderPOJO.getUp_user_profile_id()));
 
         new AdapterWebService(activity, nameValuePairs, false, new MsgPassInterface() {

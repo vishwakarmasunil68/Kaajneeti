@@ -74,7 +74,7 @@ public class SatyapanActivity extends LocalizationActivity implements WebService
     public void validateMobileOTP() {
         if (et_otp.getText().length() == 6) {
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
-            nameValuePairs.add(new BasicNameValuePair("login_request", "VALIDATE_MOBILE_OTP"));
+            nameValuePairs.add(new BasicNameValuePair("request_action", "VALIDATE_MOBILE_OTP"));
             nameValuePairs.add(new BasicNameValuePair("device_token", ""));
             nameValuePairs.add(new BasicNameValuePair("mobile", mobile_number));
             nameValuePairs.add(new BasicNameValuePair("otp", et_otp.getText().toString()));
@@ -119,7 +119,7 @@ public class SatyapanActivity extends LocalizationActivity implements WebService
                 String userprofile=jsonObject.optJSONObject("user_detail").optJSONObject("user_profile").toString();
                 Gson gson=new Gson();
                 UserProfilePOJO userProfilePOJO=gson.fromJson(userprofile,UserProfilePOJO.class);
-                Pref.SaveUserProfile(getApplicationContext(),userProfilePOJO,userprofile);
+                Pref.SaveUserProfile(getApplicationContext(),userProfilePOJO);
                 startActivity(new Intent(SatyapanActivity.this,MpinActivity.class).putExtra("mobile_number",mobile_number));
             }else{
                 ToastClass.showShortToast(getApplicationContext(),"wrong otp");

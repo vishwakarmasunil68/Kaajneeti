@@ -81,7 +81,7 @@ public class MpinActivity extends LocalizationActivity implements WebServicesCal
 
     public void callSetMpin() {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
-        nameValuePairs.add(new BasicNameValuePair("login_request", "SET_MPIN"));
+        nameValuePairs.add(new BasicNameValuePair("request_action", "SET_MPIN"));
         nameValuePairs.add(new BasicNameValuePair("mobile", mobile_number));
         nameValuePairs.add(new BasicNameValuePair("mpin", et_confirm_mpin.getText().toString()));
         nameValuePairs.add(new BasicNameValuePair("mpin_confirm", et_confirm_mpin.getText().toString()));
@@ -105,16 +105,19 @@ public class MpinActivity extends LocalizationActivity implements WebServicesCal
                 String user_profile=jsonObject.optJSONObject("user_detail").optJSONObject("user_profile").toString();
                 Gson gson=new Gson();
                 UserProfilePOJO userProfilePOJO=gson.fromJson(user_profile,UserProfilePOJO.class);
-                Pref.SaveUserProfile(getApplicationContext(),userProfilePOJO,user_profile);
+                Pref.SaveUserProfile(getApplicationContext(),userProfilePOJO);
                 Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_LOGIN,true);
-                if(userProfilePOJO.getUserFullName().equals("")||userProfilePOJO.getUserGender().equals("0")||
-                        userProfilePOJO.getUserDateOfBirth().equals("0000-00-00")||userProfilePOJO.getUserState().equals("")){
+                if(userProfilePOJO.getFirstname().equals("")||userProfilePOJO.getMiddlename().equals("")||
+                        userProfilePOJO.getLastname().equals("")||userProfilePOJO.getFullname().equals("")||
+                        userProfilePOJO.getGender().equals("0")||userProfilePOJO.getDateOfBirth().equals("0000-00-00")||
+                        userProfilePOJO.getState().equals("")){
                     Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED,false);
-                    startActivity(new Intent(this, ProfileInfoActivity.class));
+                    startActivity(new Intent(getApplicationContext(), ProfileInfoActivity.class));
                     finishAffinity();
+
                 }else{
                     Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED,true);
-                    startActivity(new Intent(this, CitizenHomeActivity.class));
+                    startActivity(new Intent(getApplicationContext(), CitizenHomeActivity.class));
                     finishAffinity();
                 }
             }

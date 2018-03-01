@@ -30,8 +30,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.ritvi.cms.R;
 import com.ritvi.cms.Util.TagUtils;
+import com.ritvi.cms.Util.UtilityFunction;
 import com.ritvi.cms.adapter.ViewPagerWithTitleAdapter;
 import com.ritvi.cms.fragment.LoginMobileFragment;
+import com.ritvi.cms.testing.FacebookAppInvitationActivity;
 import com.ritvi.cms.webservice.WebServiceBase;
 import com.ritvi.cms.webservice.WebServicesCallBack;
 import com.ritvi.cms.webservice.WebServicesUrls;
@@ -62,6 +64,7 @@ import retrofit2.Call;
 public class LoginActivity extends LocalizationActivity implements GoogleApiClient.OnConnectionFailedListener, WebServicesCallBack {
 
     private static final String CALL_LOGIN_API = "call_login_api";
+    private static final String CALL_UPLOAD_SOCIAL_DATA = "call_upload_social_data";
     @BindView(R.id.tabs)
     TabLayout tabs;
     @BindView(R.id.viewPager)
@@ -125,7 +128,8 @@ public class LoginActivity extends LocalizationActivity implements GoogleApiClie
         iv_facebook_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FbIntegration();
+//                FbIntegration();
+                startActivity(new Intent(LoginActivity.this, FacebookAppInvitationActivity.class));
             }
         });
 
@@ -151,6 +155,7 @@ public class LoginActivity extends LocalizationActivity implements GoogleApiClie
                     @Override
                     public void failure(TwitterException e) {
                         e.printStackTrace();
+                        Log.d(TagUtils.getTag(),"twitter error:-"+e.toString());
                     }
                 });
 
@@ -242,7 +247,7 @@ public class LoginActivity extends LocalizationActivity implements GoogleApiClie
 //                                json.getString("email"),"");
 //                        String request_data = json.getString("name") + "," + "" + "," +
 //                                "" + "," + "1234";
-//
+//                        sendDataToServer("facebook");
 //                        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 //                        FacebookLoginAPI(json.getString("email"));
                     }
@@ -285,6 +290,7 @@ public class LoginActivity extends LocalizationActivity implements GoogleApiClie
             //Getting google account
             GoogleSignInAccount acct = result.getSignInAccount();
             try {
+
                 Log.d(TagUtils.getTag(), "name:-" + acct.getDisplayName());
                 Log.d(TagUtils.getTag(), "email:-" + acct.getEmail());
                 Log.d(TagUtils.getTag(), "image:-" + acct.getPhotoUrl().toString());
@@ -345,6 +351,7 @@ public class LoginActivity extends LocalizationActivity implements GoogleApiClie
             @Override
             public void failure(TwitterException exception) {
                 // Do something on failure
+                Log.d(TagUtils.getTag(),"twitter login failure");
             }
         });
 
@@ -368,5 +375,15 @@ public class LoginActivity extends LocalizationActivity implements GoogleApiClie
 
     public void parseLoginResponse(String response) {
 
+    }
+
+    public void sendDataToServer(String social_type,String id,String name,String picture,String email){
+        ArrayList<NameValuePair> nameValuePairs=new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("social_type",social_type));
+        nameValuePairs.add(new BasicNameValuePair("id",id));
+        nameValuePairs.add(new BasicNameValuePair("name",name));
+        nameValuePairs.add(new BasicNameValuePair("picture",picture));
+        nameValuePairs.add(new BasicNameValuePair("email",email));
+        new WebServiceBase(nameValuePairs,this,this,CALL_UPLOAD_SOCIAL_DATA,true).execute(WebServicesUrls.LOGIN_URL);
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00599a</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#00bcd4</color>
+    <color name="colorPrimaryDark">#1a8f9a</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="lightColorAccent">#30FF4081</color>
@@ -682,5 +682,35 @@
     <color name="md_falcon_500_50">#80384e77</color>
     <color name="md_falcon_500_75">#c0384e77</color>
     <color name="md_falcon_A400_25">#40598bae</color>
+
+
+    <color name="home_color_primary">#00bcd4</color>
+    <color name="home_color_primary_dark">#1a8f9a</color>
+
+    <color name="news_color_primary">#009748</color>
+    <color name="news_color_primary_dark">#007c48</color>
+
+    <color name="dashboard_color_primary">#4a8fbd</color>
+    <color name="dashboard_color_primary_dark">#296aa3</color>
+
+    <color name="connection_color_primary">#6a1b9a</color>
+    <color name="connection_color_primary_dark">#4c1672</color>
+
+    <color name="communication_color_primary">#c62828</color>
+    <color name="communication_color_primary_dark">#8f2222</color>
+
+    <color name="calendar_color_primary">#ff6d00</color>
+    <color name="calendar_color_primary_dark">#e86100</color>
+
+    <color name="reward_color_primary">#afb42b</color>
+    <color name="reward_color_primary_dark">#8a8a26</color>
+
+    <color name="info_color_primary">#01579b</color>
+    <color name="info_color_primary_dark">#004777</color>
+
+    <color name="social_color_primary">#f44336</color>
+    <color name="social_color_primary_dark">#c62828</color>
+
+
 
 </resources>

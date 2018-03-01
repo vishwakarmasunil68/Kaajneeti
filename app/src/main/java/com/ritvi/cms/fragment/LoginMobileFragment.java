@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.ritvi.cms.R;
@@ -19,6 +20,8 @@ import com.ritvi.cms.Util.StringUtils;
 import com.ritvi.cms.Util.TagUtils;
 import com.ritvi.cms.Util.ToastClass;
 import com.ritvi.cms.activity.CitizenHomeActivity;
+import com.ritvi.cms.activity.ForgotMpinActivity;
+import com.ritvi.cms.activity.LoginWithOTPActivity;
 import com.ritvi.cms.activity.ProfileInfoActivity;
 import com.ritvi.cms.pojo.user.UserProfilePOJO;
 import com.ritvi.cms.webservice.WebServiceBase;
@@ -48,6 +51,10 @@ public class LoginMobileFragment extends Fragment implements WebServicesCallBack
     EditText et_mobile_number;
     @BindView(R.id.et_mpin)
     EditText et_mpin;
+    @BindView(R.id.tv_login_otp)
+    TextView tv_login_otp;
+    @BindView(R.id.tv_forgot_mpin)
+    TextView tv_forgot_mpin;
 
     @Nullable
     @Override
@@ -67,12 +74,26 @@ public class LoginMobileFragment extends Fragment implements WebServicesCallBack
                 callLoginAPI();
             }
         });
+
+        tv_login_otp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), LoginWithOTPActivity.class));
+            }
+        });
+
+        tv_forgot_mpin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), ForgotMpinActivity.class));
+            }
+        });
     }
 
     public void callLoginAPI(){
         if(et_mobile_number.getText().toString().length()>0&&et_mpin.getText().toString().length()>0) {
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
-            nameValuePairs.add(new BasicNameValuePair("login_request", "LOGIN_WITH_MPIN"));
+            nameValuePairs.add(new BasicNameValuePair("request_action", "LOGIN_WITH_MPIN"));
             nameValuePairs.add(new BasicNameValuePair("mobile", "+91"+et_mobile_number.getText().toString()));
             nameValuePairs.add(new BasicNameValuePair("mpin", et_mpin.getText().toString()));
             new WebServiceBase(nameValuePairs, getActivity(), this, CALL_LOGIN_API, true).execute(WebServicesUrls.LOGIN_URL);
@@ -97,13 +118,16 @@ public class LoginMobileFragment extends Fragment implements WebServicesCallBack
                 String user_profile=jsonObject.optJSONObject("user_detail").optJSONObject("user_profile").toString();
                 Gson gson=new Gson();
                 UserProfilePOJO userProfilePOJO=gson.fromJson(user_profile,UserProfilePOJO.class);
-                Pref.SaveUserProfile(getActivity(),userProfilePOJO,user_profile);
+                Pref.SaveUserProfile(getActivity(),userProfilePOJO);
                 Pref.SetBooleanPref(getActivity(), StringUtils.IS_LOGIN,true);
-                if(userProfilePOJO.getUserFullName().equals("")||userProfilePOJO.getUserGender().equals("0")||
-                        userProfilePOJO.getUserDateOfBirth().equals("0000-00-00")||userProfilePOJO.getUserState().equals("")){
+                if(userProfilePOJO.getFirstname().equals("")||userProfilePOJO.getMiddlename().equals("")||
+                        userProfilePOJO.getLastname().equals("")||userProfilePOJO.getFullname().equals("")||
+                        userProfilePOJO.getGender().equals("0")||userProfilePOJO.getDateOfBirth().equals("0000-00-00")||
+                        userProfilePOJO.getState().equals("")){
                     Pref.SetBooleanPref(getActivity(), StringUtils.IS_PROFILE_COMPLETED,false);
                     startActivity(new Intent(getActivity(), ProfileInfoActivity.class));
                     getActivity().finishAffinity();
+
                 }else{
                     Pref.SetBooleanPref(getActivity(), StringUtils.IS_PROFILE_COMPLETED,true);
                     startActivity(new Intent(getActivity(), CitizenHomeActivity.class));

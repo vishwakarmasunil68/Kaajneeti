@@ -68,6 +68,24 @@ public class AddCommunication extends LocalizationActivity implements WebService
     @BindView(R.id.rb_other)
     RadioButton rb_other;
 
+    @BindView(R.id.rg_comm_type)
+    RadioGroup rg_comm_type;
+    @BindView(R.id.rb_complaint)
+    RadioButton rb_complaint;
+    @BindView(R.id.rv_suggestion)
+    RadioButton rv_suggestion;
+    @BindView(R.id.rb_information)
+    RadioButton rb_information;
+
+    @BindView(R.id.rg_comm_type)
+    RadioGroup rg_comm_type;
+    @BindView(R.id.rb_other)
+    RadioButton rb_other;
+    @BindView(R.id.rb_other)
+    RadioButton rb_other;
+    @BindView(R.id.rb_other)
+    RadioButton rb_other;
+
     String leader_id="";
 
     List<LeaderPOJO> leaderPOJOS = new ArrayList<>();
@@ -115,7 +133,7 @@ public class AddCommunication extends LocalizationActivity implements WebService
                 et_mobile_number.getText().toString().length()>0&&auto_fav_list.getText().toString().length()>0&&
                 leader_id.length()>0){
             CommunicationSubmittionPOJO communicationSubmittionPOJO=new CommunicationSubmittionPOJO();
-            communicationSubmittionPOJO.setUser_id(Pref.GetUserProfile(getApplicationContext()).getUserId());
+            communicationSubmittionPOJO.setUser_id(Pref.GetUserProfile(getApplicationContext()).getCitizenId());
             communicationSubmittionPOJO.setC_name(et_name.getText().toString());
             communicationSubmittionPOJO.setC_gender(((RadioButton)findViewById(rg_gender.getCheckedRadioButtonId())).getText().toString());
             communicationSubmittionPOJO.setSelf_other_group("1");
@@ -134,11 +152,11 @@ public class AddCommunication extends LocalizationActivity implements WebService
 
     public void autoFillForm() {
         UserProfilePOJO userProfilePOJO = Pref.GetUserProfile(getApplicationContext());
-        setField(userProfilePOJO.getUserFullName(), et_name);
-        setField(userProfilePOJO.getUserMobile(), et_mobile_number);
-        setField(userProfilePOJO.getUserEmail(), et_email);
+        setField(userProfilePOJO.getFullname(), et_name);
+        setField(userProfilePOJO.getMobile(), et_mobile_number);
+        setField(userProfilePOJO.getEmail(), et_email);
 
-        String gender = userProfilePOJO.getUserGender();
+        String gender = userProfilePOJO.getGender();
         if (gender != null && gender.length() > 0) {
             switch (gender.toLowerCase().toString()) {
                 case "male":
@@ -169,7 +187,7 @@ public class AddCommunication extends LocalizationActivity implements WebService
     public void callLeaderAPI() {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("request_action", "MY_FAVOURITE_LEADER"));
-        nameValuePairs.add(new BasicNameValuePair("c_profile_id", Pref.GetUserProfile(getApplicationContext()).getUserId()));
+        nameValuePairs.add(new BasicNameValuePair("c_profile_id", Pref.GetUserProfile(getApplicationContext()).getCitizenId()));
         new WebServiceBase(nameValuePairs, this, this, CALL_ALL_LEADER, false).execute(WebServicesUrls.USER_ADMIN_PROCESS);
     }
 

@@ -74,24 +74,27 @@
                 android:layout_height="match_parent">
 
                 <RadioGroup
+                    android:id="@+id/rg_comm_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:id="@+id/rb_complaint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:checked="true"
                         android:text="Complaint" />
 
                     <RadioButton
+                        android:id="@+id/rv_suggestion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Suggestion" />
 
                     <RadioButton
+                        android:id="@+id/rb_information"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -115,6 +118,7 @@
                 android:layout_height="match_parent">
 
                 <RadioGroup
+                    android:id="@+id/rg_comp_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">

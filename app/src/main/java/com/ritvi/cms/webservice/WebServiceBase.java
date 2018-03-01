@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.ritvi.cms.Util.ToastClass;
+import com.ritvi.cms.Util.UtilityFunction;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -45,6 +46,7 @@ public class WebServiceBase extends AsyncTask<String, Void, String> {
 
     public WebServiceBase(ArrayList<NameValuePair> nameValuePairs,Context context,Object object, String msg, boolean isdialog) {
         this.nameValuePairs = nameValuePairs;
+        this.nameValuePairs.addAll(UtilityFunction.getNameValuePairs(context));
         this.object = object;
         this.context=context;
         this.msg = msg;

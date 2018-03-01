@@ -98,10 +98,10 @@ public class LeaderHomeActivity extends LocalizationActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        final ComplaintFragment complaintFragment = new ComplaintFragment();
+//        final ComplaintFragment complaintFragment = new ComplaintFragment();
         ViewPagerWithTitleAdapter adapter = new ViewPagerWithTitleAdapter(getSupportFragmentManager());
         adapter.addFrag(new HomeFragment(), getResources().getString(R.string.hs_tab_home));
-        adapter.addFrag(complaintFragment, getResources().getString(R.string.hs_tab_complain));
+//        adapter.addFrag(complaintFragment, getResources().getString(R.string.hs_tab_complain));
         adapter.addFrag(new HomeFragment(), getResources().getString(R.string.hs_tab_campaign));
         adapter.addFrag(new HomeFragment(), getResources().getString(R.string.hs_tab_calendar));
         viewPager.setAdapter(adapter);
@@ -152,7 +152,7 @@ public class LeaderHomeActivity extends LocalizationActivity {
         View headerLayout = nvDrawer.inflateHeaderView(R.layout.home_nav_header);
         spinner_profile = headerLayout.findViewById(R.id.spinner_profile);
         TextView tv_header_title = headerLayout.findViewById(R.id.tv_header_title);
-        tv_header_title.setText(userProfilePOJO.getUserFullName());
+        tv_header_title.setText(userProfilePOJO.getFullname());
 
         ImageView cv_profile_pic=headerLayout.findViewById(R.id.cv_profile_pic);
 
@@ -224,7 +224,7 @@ public class LeaderHomeActivity extends LocalizationActivity {
     private void callCitizenSwitchAPI() {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("request_action", "SWITCH_TO_CITIZEN"));
-        nameValuePairs.add(new BasicNameValuePair("user_id", userProfilePOJO.getUserId()));
+        nameValuePairs.add(new BasicNameValuePair("user_id", userProfilePOJO.getCitizenId()));
         new AdapterWebService(this, nameValuePairs, true, new MsgPassInterface() {
             @Override
             public void onMsgPassed(String response) {
@@ -235,7 +235,7 @@ public class LeaderHomeActivity extends LocalizationActivity {
                         String user_profile = jsonObject.optJSONObject("user_detail").optJSONObject("user_profile").toString();
                         Gson gson = new Gson();
                         UserProfilePOJO userProfilePOJO = gson.fromJson(user_profile, UserProfilePOJO.class);
-                        Pref.SaveUserProfile(getApplicationContext(), userProfilePOJO, user_profile);
+                        Pref.SaveUserProfile(getApplicationContext(), userProfilePOJO);
                         Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_LOGIN, true);
                         Pref.SetIntPref(getApplicationContext(), StringUtils.USER_TYPE, Constants.USER_TYPE_CITIZEN);
                         startActivity(new Intent(LeaderHomeActivity.this, CitizenHomeActivity.class));

@@ -9,6 +9,8 @@ import android.widget.ImageView;
 
 import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.ritvi.cms.R;
+import com.ritvi.cms.Util.Pref;
+import com.ritvi.cms.Util.StringUtils;
 import com.ritvi.cms.adapter.CustomswipeAdapter;
 
 import java.util.ArrayList;
@@ -63,6 +65,7 @@ public class SliderActivity extends LocalizationActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Pref.setPermanentBoolean(getApplicationContext(), StringUtils.INTO_COMPLETED,true);
                 startActivity(new Intent(SliderActivity.this,LoginActivity.class));
             }
         });
@@ -71,6 +74,7 @@ public class SliderActivity extends LocalizationActivity {
         btn_panjikaran.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Pref.setPermanentBoolean(getApplicationContext(), StringUtils.INTO_COMPLETED,true);
                 startActivity(new Intent(SliderActivity.this,RegistrationActivity.class));
             }
         });

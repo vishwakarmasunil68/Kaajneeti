@@ -94,7 +94,7 @@ public class RegistrationActivity extends LocalizationActivity implements View.O
         if (et_phone_number.getText().toString().length() >= 10) {
 //            callAPI
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
-            nameValuePairs.add(new BasicNameValuePair("login_request", "REGISTER_MOBILE"));
+            nameValuePairs.add(new BasicNameValuePair("request_action", "REGISTER_MOBILE"));
             nameValuePairs.add(new BasicNameValuePair("device_token", ""));
             nameValuePairs.add(new BasicNameValuePair("mobile", "+91"+et_phone_number.getText().toString()));
             new WebServiceBase(nameValuePairs, this, this, CALL_REGISTER_API, true).execute(WebServicesUrls.REGISTER_URL);

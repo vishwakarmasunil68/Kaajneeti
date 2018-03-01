@@ -8,6 +8,8 @@ import android.widget.Spinner;
 
 import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.ritvi.cms.R;
+import com.ritvi.cms.Util.Pref;
+import com.ritvi.cms.Util.StringUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +43,7 @@ public class ChooseLanguageActivity extends LocalizationActivity{
 
 
     public void changeLocale(final String lang) {
+        Pref.SetStringPref(getApplicationContext(), StringUtils.SELECTED_LANGUAGE,lang);
         setLanguage(lang);
         startActivity(new Intent(ChooseLanguageActivity.this,TermsConditionActivity.class));
     }

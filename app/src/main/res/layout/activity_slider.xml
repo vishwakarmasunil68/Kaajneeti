@@ -99,8 +99,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:background="#105b9e"
             android:text="@string/slider_login"
+            android:background="#105b9e"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 

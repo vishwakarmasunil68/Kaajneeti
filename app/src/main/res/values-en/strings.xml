@@ -84,8 +84,8 @@
     <string name="hs_menu_home">Home</string>
     <string name="hs_menu_news">News &amp; Update</string>
     <string name="hs_menu_dashboard">Dashboard</string>
-    <string name="hs_menu_myconnection">My Connection</string>
-    <string name="hs_menu_mycommunication">My Communication</string>
+    <string name="hs_menu_myconnection">Connection</string>
+    <string name="hs_menu_mycommunication">Communication</string>
     <string name="hs_menu_calendar">Calendar</string>
     <string name="hs_menu_reward">Rewards &amp; Offers</string>
     <string name="hs_menu_info">Info-Directory</string>

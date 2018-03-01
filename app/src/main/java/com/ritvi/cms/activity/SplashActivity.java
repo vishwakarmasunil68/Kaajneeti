@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.ritvi.cms.R;
+import com.ritvi.cms.Util.GPSTracker;
 import com.ritvi.cms.Util.Pref;
 import com.ritvi.cms.Util.StringUtils;
 import com.ritvi.cms.Util.TagUtils;
@@ -198,33 +199,47 @@ public class SplashActivity extends LocalizationActivity {
     }
 
     public void makesplash() {
+
+//        Log.d(TagUtils.getTag(),"sdk:-"+android.os.Build.VERSION.SDK);
+//        Log.d(TagUtils.getTag(),"DEVICE:-"+ android.os.Build.DEVICE);
+//        Log.d(TagUtils.getTag(),"MODEL:-"+ android.os.Build.MODEL);
+//        Log.d(TagUtils.getTag(),"PRODUCT:-"+ android.os.Build.PRODUCT);
+        getLocation();
+
         if (Pref.GetBooleanPref(getApplicationContext(), StringUtils.IS_LOGIN, false)) {
             if (Pref.GetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED, false) ||
                     Pref.GetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_SKIPPED, false)) {
-
-                switch (Pref.GetIntPref(getApplicationContext(), StringUtils.USER_TYPE, 0)) {
-                    case 0:
-                        startActivity(new Intent(SplashActivity.this, CitizenHomeActivity.class));
-                        finish();
-                        break;
-                    case 1:
-                        startActivity(new Intent(SplashActivity.this, CitizenHomeActivity.class));
-                        finish();
-                        break;
-                    case 2:
-                        startActivity(new Intent(SplashActivity.this, LeaderHomeActivity.class));
-                        finish();
-                        break;
-                }
-
-
+                startActivity(new Intent(SplashActivity.this, CitizenHomeActivity.class));
             } else {
                 startActivity(new Intent(SplashActivity.this, ProfileInfoActivity.class));
-                finish();
             }
+
         } else {
-            startActivity(new Intent(SplashActivity.this, ChooseLanguageActivity.class));
-            finish();
+            if (Pref.getPermanentBoolean(getApplicationContext(), StringUtils.INTO_COMPLETED, false)) {
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+            } else {
+                startActivity(new Intent(SplashActivity.this, ChooseLanguageActivity.class));
+            }
+        }
+
+        finish();
+    }
+
+    GPSTracker gps;
+
+    public void getLocation() {
+        gps = new GPSTracker(this);
+        if (gps.canGetLocation()) {
+
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+            Log.d(TagUtils.getTag(), "location:-latitude:-" + latitude);
+            Log.d(TagUtils.getTag(), "location:-longitude:-" + longitude);
+
+            Pref.SetStringPref(getApplicationContext(), StringUtils.CURRENT_LATITUDE, String.valueOf(latitude));
+            Pref.SetStringPref(getApplicationContext(), StringUtils.CURRENT_LONGITUDE, String.valueOf(longitude));
+        } else {
+            gps.showSettingsAlert();
         }
     }
 

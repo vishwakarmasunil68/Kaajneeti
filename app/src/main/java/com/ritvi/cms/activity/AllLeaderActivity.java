@@ -69,7 +69,7 @@ public class AllLeaderActivity extends LocalizationActivity implements WebServic
     public void callLeaderAPI() {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("request_action", "ALL_LEADERS"));
-        nameValuePairs.add(new BasicNameValuePair("c_profile_id", Pref.GetUserProfile(getApplicationContext()).getUserId()));
+        nameValuePairs.add(new BasicNameValuePair("c_profile_id", Pref.GetUserProfile(getApplicationContext()).getCitizenId()));
         nameValuePairs.add(new BasicNameValuePair("search_text", ""));
         new WebServiceBase(nameValuePairs, this, this, CALL_ALL_LEADER, true).execute(WebServicesUrls.USER_ADMIN_PROCESS);
     }

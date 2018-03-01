@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.ritvi.cms.Util.TagUtils;
 import com.ritvi.cms.Util.ToastClass;
 
 import java.io.BufferedReader;
@@ -64,6 +65,7 @@ public class GetWebServices extends AsyncTask<String,Void,String> {
             while ((temp = bReader.readLine()) != null) {
                 response += temp;
             }
+            Log.d(TagUtils.getTag(),"get response:-"+response);
             this.response=response;
 //            object = (JSONObject) new JSONTokener(response).nextValue();
             return response;

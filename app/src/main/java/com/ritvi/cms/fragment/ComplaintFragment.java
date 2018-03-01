@@ -66,7 +66,7 @@ public class ComplaintFragment extends Fragment implements WebServicesCallBack{
         pb_complaint.setVisibility(View.VISIBLE);
         ArrayList<NameValuePair> nameValuePairs=new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("request_action","ALL_COMPLAINTS"));
-        nameValuePairs.add(new BasicNameValuePair("c_profile_id", Pref.GetUserProfile(getActivity().getApplicationContext()).getUserId()));
+        nameValuePairs.add(new BasicNameValuePair("c_profile_id", Pref.GetUserProfile(getActivity().getApplicationContext()).getc()));
         new WebServiceBase(nameValuePairs,getActivity(),this,CALL_COMPLAINT_API,false).execute(WebServicesUrls.USER_ADMIN_PROCESS);
     }
 

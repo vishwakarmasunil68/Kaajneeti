@@ -11,29 +11,45 @@ public class StringUtils {
     public static final String IS_PROFILE_SKIPPED="is_profile_skipped";
     public static final String IS_USER_NAME="is_user_name";
     public static final String USER_TYPE="user_type";
+    public static final String SELECTED_LANGUAGE="selected_language";
+    public static final String CURRENT_LATITUDE="current_latitude";
+    public static final String CURRENT_LONGITUDE="current_longitude";
+
+
+    public static final String INTO_COMPLETED="intro_completed";
 
 
     public static final String C_PROFILE_DETAIL="c_profile_detail";
     public static final String L_PROFILE_DETAIL="l_profile_detail";
 
     //userprofilepojo
-    public static final String USER_ID="user_id";
-    public static final String USER_PROFILE_ID="user_profile_id";
-    public static final String USER_NAME="user_name";
-    public static final String USER_FULL_NAME="user_full_name";
-    public static final String USER_IMAGE="user_image";
-    public static final String USER_EMAIL="user_email";
-    public static final String USER_PHONE_COUNTRY="user_phonecountry";
-    public static final String USER_MOBILE="user_mobile";
-    public static final String USER_ALT_MOBILE ="user_alt_mobile";
-    public static final String USER_CREATED_ON="user_createdon";
-    public static final String USER_ADDRESS="user_address";
-    public static final String USER_CITY="user_city";
-    public static final String USER_STATE="user_state";
-    public static final String USER_DEVICE_TOKEN="user_device_token";
-    public static final String USER_DATE_OF_BIRTH="user_date_of_birth";
-    public static final String USER_GENDER="user_gender";
-    public static final String USER_LOGIN_STATUS="user_login_status";
+    public static final String CITIZEN_ID="citizen_id";//use this as primary key
+    public static final String CITIZEN_PROFILE_ID="profile_id";
+    public static final String CITIZEN_FIRST_NAME="firstname";
+    public static final String CITIZEN_MIDDLE_NAME="middlename";
+    public static final String CITIZEN_LAST_NAME="lastname";
+    public static final String CITIZEN_FULLNAME="fullname";
+    public static final String CITIZEN_EMAIL="email";
+    public static final String CITIZEN_USERNAME="username";
+    public static final String CITIZEN_MOBILE ="mobile";
+    public static final String CITIZEN_ALT_MOBILE="alt_mobile";
+    public static final String CITIZEN_GENDER="gender";
+    public static final String CITIZEN_STATUS="status";
+    public static final String CITIZEN_CREATED_ON="created_on";
+    public static final String CITIZEN_UPDATED_ON="updated_on";
+    public static final String CITIZEN_ADDRESS="address";
+    public static final String CITIZEN_CITY="city";
+    public static final String CITIZEN_STATE="state";
+    public static final String CITIZEN_COUNTRY="country";
+    public static final String CITIZEN_ZIPCODE="zipcode";
+    public static final String CITIZEN_ABOUT_ME="about_me";
+    public static final String CITIZEN_DEVICE_TOKEN="device_token";
+    public static final String CITIZEN_DATE_OF_BIRTH="date_of_birth";
+    public static final String CITIZEN_PROFILE_IMAGE="profile_image";
+    public static final String CITIZEN_COVER_IMAGE="cover_image";
+    public static final String CITIZEN_FACEBOOK_PROFILEID="facebook_profile_id";
+    public static final String CITIZEN_GOOGLE_PROFILEID="google_profile_id";
+    public static final String CITIZEN_TWITTER_PROFILEID="twitter_profile_id";
 
     //profilerolepojo
     public static final String UP_USER_PROFILE_ID="up_user_profile_id";

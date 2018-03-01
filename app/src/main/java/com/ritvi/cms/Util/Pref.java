@@ -2,13 +2,10 @@ package com.ritvi.cms.Util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.ritvi.cms.pojo.user.ProfileRolePOJO;
 import com.ritvi.cms.pojo.user.UserProfilePOJO;
-
-import org.json.JSONObject;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -18,7 +15,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Pref {
 
-    private static final String PrefDB = "momyt";
+    private static final String PrefDB = "cms";
+    private static final String PerPrefDB = "percms";
 
 
     public static final String FCM_REGISTRATION_TOKEN = "fcm_registration_token";
@@ -45,6 +43,18 @@ public class Pref {
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean(KEY, Value);
         editor.commit();
+    }
+
+    public static void setPermanentBoolean(Context context, String KEY, boolean Value) {
+        SharedPreferences sp = context.getSharedPreferences(PerPrefDB, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(KEY, Value);
+        editor.commit();
+    }
+
+    public static boolean getPermanentBoolean(Context context, String KEY, boolean defValue) {
+        SharedPreferences sp = context.getSharedPreferences(PerPrefDB, MODE_PRIVATE);
+        return sp.getBoolean(KEY, defValue);
     }
 
     public static int GetIntPref(Context context, String KEY, int defValue) {
@@ -83,49 +93,46 @@ public class Pref {
         return sp.getString("devicetoken", defValue);
     }
 
-    public static void SaveUserProfile(Context context, UserProfilePOJO userProfilePOJO,String user_profile) {
+    public static void SaveUserProfile(Context context, UserProfilePOJO userProfilePOJO) {
         if (userProfilePOJO != null) {
-            SetStringPref(context, StringUtils.USER_ID, userProfilePOJO.getUserId());
-            SetStringPref(context, StringUtils.USER_PROFILE_ID, userProfilePOJO.getUserProfileId());
-            SetStringPref(context, StringUtils.USER_NAME, userProfilePOJO.getUserName());
-            SetStringPref(context, StringUtils.USER_FULL_NAME, userProfilePOJO.getUserFullName());
-            SetStringPref(context, StringUtils.USER_IMAGE, userProfilePOJO.getUserImage());
-            SetStringPref(context, StringUtils.USER_EMAIL, userProfilePOJO.getUserEmail());
-            SetStringPref(context, StringUtils.USER_PHONE_COUNTRY, userProfilePOJO.getUserPhonecountry());
-            SetStringPref(context, StringUtils.USER_MOBILE, userProfilePOJO.getUserMobile());
-            SetStringPref(context, StringUtils.USER_ALT_MOBILE, userProfilePOJO.getUser_alt_mobile());
-            SetStringPref(context, StringUtils.USER_CREATED_ON, userProfilePOJO.getUserCreatedon());
-            SetStringPref(context, StringUtils.USER_ADDRESS, userProfilePOJO.getUserAddress());
-            SetStringPref(context, StringUtils.USER_CITY, userProfilePOJO.getUserCity());
-            SetStringPref(context, StringUtils.USER_STATE, userProfilePOJO.getUserState());
-            SetStringPref(context, StringUtils.USER_DEVICE_TOKEN, userProfilePOJO.getUserDeviceToken());
-            SetStringPref(context, StringUtils.USER_DATE_OF_BIRTH, userProfilePOJO.getUserDateOfBirth());
-            SetStringPref(context, StringUtils.USER_GENDER, userProfilePOJO.getUserGender());
-            SetStringPref(context, StringUtils.USER_LOGIN_STATUS, userProfilePOJO.getUserLoginStatus());
 
-            try {
-                if (userProfilePOJO.getProfiles().getC_profile_detail() != null) {
-                Log.d(TagUtils.getTag(), "citizen profile present");
-                    SetStringPref(context, StringUtils.C_PROFILE_DETAIL, new JSONObject(user_profile).optJSONObject("profiles").optJSONObject("c_profile_detail").toString());
-                }
-
-                if (userProfilePOJO.getProfiles().getL_profile_detail() != null) {
-                    Log.d(TagUtils.getTag(), "leader profile present");
-                    SetStringPref(context, StringUtils.L_PROFILE_DETAIL, new JSONObject(user_profile).optJSONObject("profiles").optJSONObject("l_profile_detail").toString());
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+            SetStringPref(context, StringUtils.CITIZEN_ID, userProfilePOJO.getCitizenId());
+            SetStringPref(context, StringUtils.CITIZEN_PROFILE_ID, userProfilePOJO.getProfileId());
+            SetStringPref(context, StringUtils.CITIZEN_FIRST_NAME, userProfilePOJO.getFirstname());
+            SetStringPref(context, StringUtils.CITIZEN_MIDDLE_NAME, userProfilePOJO.getLastname());
+            SetStringPref(context, StringUtils.CITIZEN_LAST_NAME, userProfilePOJO.getLastname());
+            SetStringPref(context, StringUtils.CITIZEN_FULLNAME, userProfilePOJO.getFullname());
+            SetStringPref(context, StringUtils.CITIZEN_EMAIL, userProfilePOJO.getEmail());
+            SetStringPref(context, StringUtils.CITIZEN_USERNAME, userProfilePOJO.getUsername());
+            SetStringPref(context, StringUtils.CITIZEN_MOBILE, userProfilePOJO.getMobile());
+            SetStringPref(context, StringUtils.CITIZEN_ALT_MOBILE, userProfilePOJO.getAltMobile());
+            SetStringPref(context, StringUtils.CITIZEN_GENDER, userProfilePOJO.getGender());
+            SetStringPref(context, StringUtils.CITIZEN_STATUS, userProfilePOJO.getStatus());
+            SetStringPref(context, StringUtils.CITIZEN_CREATED_ON, userProfilePOJO.getCreatedOn());
+            SetStringPref(context, StringUtils.CITIZEN_UPDATED_ON, userProfilePOJO.getUpdatedOn());
+            SetStringPref(context, StringUtils.CITIZEN_ADDRESS, userProfilePOJO.getAddress());
+            SetStringPref(context, StringUtils.CITIZEN_CITY, userProfilePOJO.getCity());
+            SetStringPref(context, StringUtils.CITIZEN_STATE, userProfilePOJO.getState());
+            SetStringPref(context, StringUtils.CITIZEN_COUNTRY, userProfilePOJO.getCountry());
+            SetStringPref(context, StringUtils.CITIZEN_ZIPCODE, userProfilePOJO.getZipcode());
+            SetStringPref(context, StringUtils.CITIZEN_ABOUT_ME, userProfilePOJO.getAboutMe());
+            SetStringPref(context, StringUtils.CITIZEN_DEVICE_TOKEN, userProfilePOJO.getDeviceToken());
+            SetStringPref(context, StringUtils.CITIZEN_DATE_OF_BIRTH, userProfilePOJO.getDateOfBirth());
+            SetStringPref(context, StringUtils.CITIZEN_PROFILE_IMAGE, userProfilePOJO.getProfileImage());
+            SetStringPref(context, StringUtils.CITIZEN_COVER_IMAGE, userProfilePOJO.getCoverImage());
+            SetStringPref(context, StringUtils.CITIZEN_FACEBOOK_PROFILEID, userProfilePOJO.getFacebookProfileId());
+            SetStringPref(context, StringUtils.CITIZEN_GOOGLE_PROFILEID, userProfilePOJO.getGoogleProfileId());
+            SetStringPref(context, StringUtils.CITIZEN_TWITTER_PROFILEID, userProfilePOJO.getTwitterProfileId());
 
         }
     }
 
-    public static ProfileRolePOJO getProfileRolePOJO(String profileRole){
-        try{
-            Gson gson=new Gson();
-            ProfileRolePOJO profileRolePOJO=gson.fromJson(profileRole,ProfileRolePOJO.class);
+    public static ProfileRolePOJO getProfileRolePOJO(String profileRole) {
+        try {
+            Gson gson = new Gson();
+            ProfileRolePOJO profileRolePOJO = gson.fromJson(profileRole, ProfileRolePOJO.class);
             return profileRolePOJO;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -134,23 +141,33 @@ public class Pref {
     public static UserProfilePOJO GetUserProfile(Context context) {
 
         UserProfilePOJO userProfilePOJO = new UserProfilePOJO(
-                GetStringPref(context, StringUtils.USER_ID, ""),
-                GetStringPref(context, StringUtils.USER_PROFILE_ID, ""),
-                GetStringPref(context, StringUtils.USER_NAME, ""),
-                GetStringPref(context, StringUtils.USER_FULL_NAME, ""),
-                GetStringPref(context, StringUtils.USER_IMAGE, ""),
-                GetStringPref(context, StringUtils.USER_EMAIL, ""),
-                GetStringPref(context, StringUtils.USER_PHONE_COUNTRY, ""),
-                GetStringPref(context, StringUtils.USER_MOBILE, ""),
-                GetStringPref(context, StringUtils.USER_ALT_MOBILE, ""),
-                GetStringPref(context, StringUtils.USER_CREATED_ON, ""),
-                GetStringPref(context, StringUtils.USER_ADDRESS, ""),
-                GetStringPref(context, StringUtils.USER_CITY, ""),
-                GetStringPref(context, StringUtils.USER_STATE, ""),
-                GetStringPref(context, StringUtils.USER_DEVICE_TOKEN, ""),
-                GetStringPref(context, StringUtils.USER_DATE_OF_BIRTH, ""),
-                GetStringPref(context, StringUtils.USER_GENDER, ""),
-                GetStringPref(context, StringUtils.USER_LOGIN_STATUS, "")
+                GetStringPref(context, StringUtils.CITIZEN_ID, ""),
+                GetStringPref(context, StringUtils.CITIZEN_PROFILE_ID,""),
+                GetStringPref(context, StringUtils.CITIZEN_FIRST_NAME,""),
+                GetStringPref(context, StringUtils.CITIZEN_MIDDLE_NAME,""),
+                GetStringPref(context, StringUtils.CITIZEN_LAST_NAME,""),
+                GetStringPref(context, StringUtils.CITIZEN_FULLNAME, ""),
+                GetStringPref(context, StringUtils.CITIZEN_EMAIL, ""),
+                GetStringPref(context, StringUtils.CITIZEN_USERNAME, ""),
+                GetStringPref(context, StringUtils.CITIZEN_MOBILE, ""),
+                GetStringPref(context, StringUtils.CITIZEN_ALT_MOBILE, ""),
+                GetStringPref(context, StringUtils.CITIZEN_GENDER,""),
+                GetStringPref(context, StringUtils.CITIZEN_STATUS, ""),
+                GetStringPref(context, StringUtils.CITIZEN_CREATED_ON, ""),
+                GetStringPref(context, StringUtils.CITIZEN_UPDATED_ON, ""),
+                GetStringPref(context, StringUtils.CITIZEN_ADDRESS, ""),
+                GetStringPref(context, StringUtils.CITIZEN_CITY, ""),
+                GetStringPref(context, StringUtils.CITIZEN_STATE, ""),
+                GetStringPref(context, StringUtils.CITIZEN_COUNTRY, ""),
+                GetStringPref(context, StringUtils.CITIZEN_ZIPCODE, ""),
+                GetStringPref(context, StringUtils.CITIZEN_ABOUT_ME, ""),
+                GetStringPref(context, StringUtils.CITIZEN_DEVICE_TOKEN, ""),
+                GetStringPref(context, StringUtils.CITIZEN_DATE_OF_BIRTH, ""),
+                GetStringPref(context, StringUtils.CITIZEN_PROFILE_IMAGE, ""),
+                GetStringPref(context, StringUtils.CITIZEN_COVER_IMAGE, ""),
+                GetStringPref(context, StringUtils.CITIZEN_FACEBOOK_PROFILEID, ""),
+                GetStringPref(context, StringUtils.CITIZEN_GOOGLE_PROFILEID, ""),
+                GetStringPref(context, StringUtils.CITIZEN_TWITTER_PROFILEID, "")
         );
 
         return userProfilePOJO;
