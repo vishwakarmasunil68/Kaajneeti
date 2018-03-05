@@ -11,16 +11,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.ritvi.cms.R;
-import com.ritvi.cms.activity.AddCommunicationAddressActivity;
+import com.ritvi.cms.activity.InformationSubmittedActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by sunil on 07-02-2018.
+ * Created by sunil on 01-03-2018.
  */
 
-public class ComplaintFragment extends Fragment{
+public class InformationFragment extends Fragment{
 
     @BindView(R.id.btn_next)
     Button btn_next;
@@ -28,7 +28,7 @@ public class ComplaintFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.frag_complaint,container,false);
+        View view=inflater.inflate(R.layout.frag_information,container,false);
         ButterKnife.bind(this,view);
         return view;
     }
@@ -36,14 +36,11 @@ public class ComplaintFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        callComplaintAPI();
-
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), AddCommunicationAddressActivity.class));
+                startActivity(new Intent(getActivity(), InformationSubmittedActivity.class));
             }
         });
     }
-
 }

@@ -55,12 +55,12 @@ public class VoterComplaintAdapter extends RecyclerView.Adapter<VoterComplaintAd
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        holder.tv_leader_name.setText(items.get(position).getUp_first_name()+" "+items.get(position).getUp_last_name());
+        holder.tv_leader_name.setText(items.get(position).getUpFirstName()+" "+items.get(position).getUpLastName());
         holder.tv_leader_email.setText("email");
 
 
         if(activity instanceof AllLeaderActivity) {
-            if (items.get(position).getMy_favourite().equals("1")) {
+            if (items.get(position).getMyFavourite().equals("1")) {
                 holder.iv_favorite.setImageResource(R.drawable.ic_favorite);
             } else {
                 holder.iv_favorite.setImageResource(R.drawable.ic_unfavorite);
@@ -83,7 +83,7 @@ public class VoterComplaintAdapter extends RecyclerView.Adapter<VoterComplaintAd
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("request_action","SET_AS_FAVOURITE"));
         nameValuePairs.add(new BasicNameValuePair("user_id", Pref.GetUserProfile(activity.getApplicationContext()).getCitizenId()));
-        nameValuePairs.add(new BasicNameValuePair("admin_id",leaderPOJO.getUp_user_profile_id()));
+        nameValuePairs.add(new BasicNameValuePair("leader_profile_id",leaderPOJO.getUpLeaderId()));
 
         new AdapterWebService(activity, nameValuePairs, false, new MsgPassInterface() {
             @Override

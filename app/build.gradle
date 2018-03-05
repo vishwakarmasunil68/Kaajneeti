@@ -69,6 +69,11 @@ dependencies {
     compile 'com.akexorcist:localizationactivity:1.2.2'
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
     compile 'com.nightonke:boommenu:2.1.1'
+    compile 'com.github.tamir7.contacts:contacts:1.1.7'
+
+    def appCenterSdkVersion = '1.4.0'
+    compile "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
+    compile "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
 //    compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
 }
 apply plugin: 'com.google.gms.google-services'

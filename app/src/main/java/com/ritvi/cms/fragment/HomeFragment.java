@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,7 +21,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.ritvi.cms.R;
 import com.ritvi.cms.Util.TagUtils;
+import com.ritvi.cms.activity.CitizenHomeActivity;
 import com.ritvi.cms.adapter.HomeNewsAdapter;
+import com.ritvi.cms.adapter.InfoAdapter;
 import com.ritvi.cms.pojo.newsapi.ArticlesPOJO;
 import com.ritvi.cms.pojo.newsapi.NewsAPI;
 import com.ritvi.cms.webservice.WebServicesCallBack;
@@ -41,6 +44,11 @@ public class HomeFragment extends Fragment implements WebServicesCallBack {
     private static final String CALL_HOME_NEWS_API = "call_home_news_api";
     @BindView(R.id.rv_news)
     RecyclerView rv_news;
+    @BindView(R.id.rv_info_directory)
+    RecyclerView rv_info_directory;
+    @BindView(R.id.tv_all_info)
+    TextView tv_all_info;
+
     HomeNewsAdapter homeNewsAdapter;
     List<ArticlesPOJO> articlesPOJOS = new ArrayList<>();
 
@@ -56,9 +64,20 @@ public class HomeFragment extends Fragment implements WebServicesCallBack {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         attachAdapter();
+        attachInfoAdapter();
 //        ArrayList<NameValuePair> nameValuePairs=new ArrayList<>();
 //        new WebServiceBase(nameValuePairs,getActivity(),this,CALL_HOME_NEWS_API,false).execute(WebServicesUrls.NEWS_API);
 //        new GetWebServices(getActivity(),this,CALL_HOME_NEWS_API,false).execute(WebServicesUrls.NEWS_API);
+
+        tv_all_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(getActivity() instanceof CitizenHomeActivity){
+                    CitizenHomeActivity citizenHomeActivity= (CitizenHomeActivity) getActivity();
+                    citizenHomeActivity.viewPager.setCurrentItem(7);
+                }
+            }
+        });
 
         StringRequest req = new StringRequest(WebServicesUrls.NEWS_API,
                 new Response.Listener<String>() {
@@ -84,6 +103,20 @@ public class HomeFragment extends Fragment implements WebServicesCallBack {
         rv_news.setAdapter(homeNewsAdapter);
         rv_news.setLayoutManager(linearLayoutManager);
         rv_news.setItemAnimator(new DefaultItemAnimator());
+
+    }
+    InfoAdapter infoAdapter;
+    List<String> infoString=new ArrayList<>();
+    public void attachInfoAdapter() {
+        for(int i=0;i<10;i++){
+            infoString.add("");
+        }
+        infoAdapter = new InfoAdapter(getActivity(), this, infoString);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        rv_info_directory.setHasFixedSize(true);
+        rv_info_directory.setAdapter(infoAdapter);
+        rv_info_directory.setLayoutManager(linearLayoutManager);
+        rv_info_directory.setItemAnimator(new DefaultItemAnimator());
 
     }
 

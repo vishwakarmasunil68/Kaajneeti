@@ -24,6 +24,9 @@ import android.widget.TextView;
 
 import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.google.gson.Gson;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 import com.ritvi.cms.R;
 import com.ritvi.cms.Util.Constants;
 import com.ritvi.cms.Util.Pref;
@@ -63,7 +66,7 @@ public class CitizenHomeActivity extends LocalizationActivity {
     @BindView(R.id.ic_ham)
     ImageView ic_ham;
     @BindView(R.id.viewPager)
-    ViewPager viewPager;
+    public ViewPager viewPager;
     @BindView(R.id.tabs)
     TabLayout tabs;
     @BindView(R.id.tv_title)
@@ -86,6 +89,10 @@ public class CitizenHomeActivity extends LocalizationActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+
+        AppCenter.start(getApplication(), "142bb43b-0f4a-446b-8815-0d3b6331d082",
+                Analytics.class, Crashes.class);
+        AppCenter.start(getApplication(), "142bb43b-0f4a-446b-8815-0d3b6331d082", Analytics.class, Crashes.class);
 
         userProfilePOJO = Pref.GetUserProfile(getApplicationContext());
         tv_title.setText("Home");
@@ -369,7 +376,9 @@ public class CitizenHomeActivity extends LocalizationActivity {
             case R.id.nav_help:
                 startActivity(new Intent(CitizenHomeActivity.this, HelpSupportActivity.class));
                 break;
-
+            case R.id.nav_refer:
+                startActivity(new Intent(CitizenHomeActivity.this, ReferActivity.class));
+                break;
             case R.id.nav_logout:
                 Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_LOGIN, false);
                 Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED, false);

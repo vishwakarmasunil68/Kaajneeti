@@ -9,6 +9,7 @@
     tools:context="com.ritvi.cms.activity.ApplicationSubmittedActivity">
 
     <TextView
+        android:id="@+id/tv_comp_submitted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Application Submitted"
@@ -41,5 +42,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Track your complaint"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="30dp"
+        android:visibility="gone"/>
 </LinearLayout>

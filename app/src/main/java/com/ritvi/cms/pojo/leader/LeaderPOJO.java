@@ -7,115 +7,194 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class LeaderPOJO {
-    @SerializedName("up_user_profile_id")
-    String up_user_profile_id;
-    @SerializedName("up_user_role")
-    String up_user_role;
+    @SerializedName("up_leader_id")
+    private String upLeaderId;
+    @SerializedName("up_leader_type")
+    private String upLeaderType;
+    @SerializedName("up_parent_leader_id")
+    private String upParentLeaderId;
+    @SerializedName("up_leader_role")
+    private String upLeaderRole;
     @SerializedName("up_first_name")
-    String up_first_name;
+    private String upFirstName;
     @SerializedName("up_middle_name")
-    String up_middle_name;
+    private String upMiddleName;
     @SerializedName("up_last_name")
-    String up_last_name;
-    @SerializedName("up_created_on")
-    String up_created_on;
-    @SerializedName("up_status")
-    String up_status;
-    @SerializedName("up_image")
-    String up_image;
+    private String upLastName;
+    @SerializedName("up_email")
+    private String upEmail;
+    @SerializedName("up_date_of_birth")
+    private String upDateOfBirth;
+    @SerializedName("up_gender")
+    private String upGender;
+    @SerializedName("up_state")
+    private String upState;
     @SerializedName("up_mobile")
-    String up_mobile;
+    private String upMobile;
     @SerializedName("up_alt_mobile")
-    String up_alt_mobile;
+    private String upAltMobile;
+    @SerializedName("up_image_id")
+    private String upImageId;
+    @SerializedName("up_cover_image_id")
+    private String upCoverImageId;
+    @SerializedName("up_created_on")
+    private String upCreatedOn;
+    @SerializedName("up_updated_on")
+    private String upUpdatedOn;
+    @SerializedName("up_status")
+    private String upStatus;
     @SerializedName("my_favourite")
-    String my_favourite;
+    private Integer myFavourite;
 
-
-    public String getUp_user_profile_id() {
-        return up_user_profile_id;
+    public String getUpLeaderId() {
+        return upLeaderId;
     }
 
-    public void setUp_user_profile_id(String up_user_profile_id) {
-        this.up_user_profile_id = up_user_profile_id;
+    public void setUpLeaderId(String upLeaderId) {
+        this.upLeaderId = upLeaderId;
     }
 
-    public String getUp_user_role() {
-        return up_user_role;
+    public String getUpLeaderType() {
+        return upLeaderType;
     }
 
-    public void setUp_user_role(String up_user_role) {
-        this.up_user_role = up_user_role;
+    public void setUpLeaderType(String upLeaderType) {
+        this.upLeaderType = upLeaderType;
     }
 
-    public String getUp_first_name() {
-        return up_first_name;
+    public String getUpParentLeaderId() {
+        return upParentLeaderId;
     }
 
-    public void setUp_first_name(String up_first_name) {
-        this.up_first_name = up_first_name;
+    public void setUpParentLeaderId(String upParentLeaderId) {
+        this.upParentLeaderId = upParentLeaderId;
     }
 
-    public String getUp_middle_name() {
-        return up_middle_name;
+    public String getUpLeaderRole() {
+        return upLeaderRole;
     }
 
-    public void setUp_middle_name(String up_middle_name) {
-        this.up_middle_name = up_middle_name;
+    public void setUpLeaderRole(String upLeaderRole) {
+        this.upLeaderRole = upLeaderRole;
     }
 
-    public String getUp_last_name() {
-        return up_last_name;
+    public String getUpFirstName() {
+        return upFirstName;
     }
 
-    public void setUp_last_name(String up_last_name) {
-        this.up_last_name = up_last_name;
+    public void setUpFirstName(String upFirstName) {
+        this.upFirstName = upFirstName;
     }
 
-    public String getUp_created_on() {
-        return up_created_on;
+    public String getUpMiddleName() {
+        return upMiddleName;
     }
 
-    public void setUp_created_on(String up_created_on) {
-        this.up_created_on = up_created_on;
+    public void setUpMiddleName(String upMiddleName) {
+        this.upMiddleName = upMiddleName;
     }
 
-    public String getUp_status() {
-        return up_status;
+    public String getUpLastName() {
+        return upLastName;
     }
 
-    public void setUp_status(String up_status) {
-        this.up_status = up_status;
+    public void setUpLastName(String upLastName) {
+        this.upLastName = upLastName;
     }
 
-    public String getUp_image() {
-        return up_image;
+    public String getUpEmail() {
+        return upEmail;
     }
 
-    public void setUp_image(String up_image) {
-        this.up_image = up_image;
+    public void setUpEmail(String upEmail) {
+        this.upEmail = upEmail;
     }
 
-    public String getUp_mobile() {
-        return up_mobile;
+    public String getUpDateOfBirth() {
+        return upDateOfBirth;
     }
 
-    public void setUp_mobile(String up_mobile) {
-        this.up_mobile = up_mobile;
+    public void setUpDateOfBirth(String upDateOfBirth) {
+        this.upDateOfBirth = upDateOfBirth;
     }
 
-    public String getUp_alt_mobile() {
-        return up_alt_mobile;
+    public String getUpGender() {
+        return upGender;
     }
 
-    public void setUp_alt_mobile(String up_alt_mobile) {
-        this.up_alt_mobile = up_alt_mobile;
+    public void setUpGender(String upGender) {
+        this.upGender = upGender;
     }
 
-    public String getMy_favourite() {
-        return my_favourite;
+    public String getUpState() {
+        return upState;
     }
 
-    public void setMy_favourite(String my_favourite) {
-        this.my_favourite = my_favourite;
+    public void setUpState(String upState) {
+        this.upState = upState;
+    }
+
+    public String getUpMobile() {
+        return upMobile;
+    }
+
+    public void setUpMobile(String upMobile) {
+        this.upMobile = upMobile;
+    }
+
+    public String getUpAltMobile() {
+        return upAltMobile;
+    }
+
+    public void setUpAltMobile(String upAltMobile) {
+        this.upAltMobile = upAltMobile;
+    }
+
+    public String getUpImageId() {
+        return upImageId;
+    }
+
+    public void setUpImageId(String upImageId) {
+        this.upImageId = upImageId;
+    }
+
+    public String getUpCoverImageId() {
+        return upCoverImageId;
+    }
+
+    public void setUpCoverImageId(String upCoverImageId) {
+        this.upCoverImageId = upCoverImageId;
+    }
+
+    public String getUpCreatedOn() {
+        return upCreatedOn;
+    }
+
+    public void setUpCreatedOn(String upCreatedOn) {
+        this.upCreatedOn = upCreatedOn;
+    }
+
+    public String getUpUpdatedOn() {
+        return upUpdatedOn;
+    }
+
+    public void setUpUpdatedOn(String upUpdatedOn) {
+        this.upUpdatedOn = upUpdatedOn;
+    }
+
+    public String getUpStatus() {
+        return upStatus;
+    }
+
+    public void setUpStatus(String upStatus) {
+        this.upStatus = upStatus;
+    }
+
+    public Integer getMyFavourite() {
+        return myFavourite;
+    }
+
+    public void setMyFavourite(Integer myFavourite) {
+        this.myFavourite = myFavourite;
     }
 }

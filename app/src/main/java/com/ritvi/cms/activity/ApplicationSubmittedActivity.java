@@ -14,6 +14,10 @@ public class ApplicationSubmittedActivity extends LocalizationActivity {
 
     @BindView(R.id.tv_complaint_id)
     TextView tv_complaint_id;
+    @BindView(R.id.tv_comp_submitted)
+    TextView tv_comp_submitted;
+
+    String comp_type;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,7 +26,22 @@ public class ApplicationSubmittedActivity extends LocalizationActivity {
         ButterKnife.bind(this);
         Bundle bundle=getIntent().getExtras();
         if(bundle!=null){
-            tv_complaint_id.setText("Complaint ID : "+bundle.getString("complaint_id"));
+            comp_type=bundle.getString("comp_type");
+            switch (comp_type){
+                case "complaint":
+                    tv_complaint_id.setText("You complaint has been submitted successfully");
+                    tv_comp_submitted.setText("Complaint Submitted");
+                    break;
+                case "suggestion":
+                    tv_complaint_id.setText("You Suggestion has been submitted successfully");
+                    tv_comp_submitted.setText("Suggestion Submitted");
+                    break;
+                case "information":
+                    tv_complaint_id.setText("You Information has been submitted successfully");
+                    tv_comp_submitted.setText("Information Submitted");
+                    break;
+            }
+//            tv_complaint_id.setText("Complaint ID : "+bundle.getString("complaint_id"));
         }
     }
 

@@ -99,7 +99,11 @@
         <activity android:name=".activity.AadharIntegrationActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".testing.FacebookAppInvitationActivity" />
-        <activity android:name=".testing.FacebookMainActivity"></activity>
+        <activity android:name=".testing.FacebookMainActivity" />
+        <activity android:name=".activity.SuggestionSubmitFormActivity" />
+        <activity android:name=".activity.InformationSubmittedActivity" />
+        <activity android:name=".activity.ProfilePageActivity" />
+        <activity android:name=".activity.ReferActivity"></activity>
     </application>
 
 </manifest>

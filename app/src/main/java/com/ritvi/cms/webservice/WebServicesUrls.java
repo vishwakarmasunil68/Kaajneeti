@@ -19,6 +19,7 @@ public class WebServicesUrls {
     public static final String USER_ADMIN_PROCESS= BASE_URL + "user_admin_process.php";
     public static final String ADMIN_PROCESS= BASE_URL + "admin_process.php";
     public static final String COMPLAINT= BASE_URL + "complaint.php";
+    public static final String CITIZEN_PROCESS= BASE_URL + "citizen_process.php";
 
 
 }

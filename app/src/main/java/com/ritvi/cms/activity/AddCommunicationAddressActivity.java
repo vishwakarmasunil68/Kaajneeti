@@ -63,11 +63,12 @@ public class AddCommunicationAddressActivity extends LocalizationActivity implem
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (addressViewPager.getCurrentItem() == 0) {
-                    checkValidation(ruralAddressFragment.checkValidations());
-                } else {
-                    checkValidation(urbanAddressFragment.checkValidations());
-                }
+//                if (addressViewPager.getCurrentItem() == 0) {
+//                    checkValidation(ruralAddressFragment.checkValidations());
+//                } else {
+//                    checkValidation(urbanAddressFragment.checkValidations());
+//                }
+                startActivity(new Intent(AddCommunicationAddressActivity.this,ApplicationSubmittedActivity.class).putExtra("comp_type","complaint"));
             }
         });
 

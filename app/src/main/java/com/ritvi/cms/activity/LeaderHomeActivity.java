@@ -27,7 +27,6 @@ import com.ritvi.cms.Util.Pref;
 import com.ritvi.cms.Util.StringUtils;
 import com.ritvi.cms.Util.TagUtils;
 import com.ritvi.cms.adapter.ViewPagerWithTitleAdapter;
-import com.ritvi.cms.fragment.ComplaintFragment;
 import com.ritvi.cms.fragment.HomeFragment;
 import com.ritvi.cms.pojo.user.ProfileRolePOJO;
 import com.ritvi.cms.pojo.user.UserProfilePOJO;
@@ -121,7 +120,8 @@ public class LeaderHomeActivity extends LocalizationActivity {
                         break;
                     case 1:
                         tv_title.setText("Complain");
-                        complaintFragment.callLeaderComplaintAPI();
+//                        complaintFragment.callLeaderComplaintAPI();
+
                         break;
                     case 2:
                         tv_title.setText("Compaign");
