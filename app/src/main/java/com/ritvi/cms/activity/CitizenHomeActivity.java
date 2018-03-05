@@ -342,11 +342,11 @@ public class CitizenHomeActivity extends LocalizationActivity {
         switch (menuItem.getItemId()) {
             case R.id.nav_community:
 //                startActivity(new Intent(CitizenHomeActivity.this, AddCommunication.class));
-                viewPager.setCurrentItem(3);
+                viewPager.setCurrentItem(4);
                 break;
             case R.id.nav_connection:
 //                startActivity(new Intent(CitizenHomeActivity.this, FavoriteLeaderActivity.class));
-                viewPager.setCurrentItem(4);
+                viewPager.setCurrentItem(3);
                 break;
             case R.id.nav_news:
                 viewPager.setCurrentItem(1);
