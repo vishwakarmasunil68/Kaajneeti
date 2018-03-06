@@ -13,7 +13,7 @@
         android:background="@drawable/et_border"
         android:minHeight="40dp"
         android:paddingLeft="5dp"
-        android:hint="Search complain"
+        android:hint="OUTGOING FRIENDS"
         android:drawableRight="@drawable/places_ic_search"
         android:drawablePadding="10dp"/>
 

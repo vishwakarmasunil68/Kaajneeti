@@ -51,6 +51,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Leader Name"
@@ -58,6 +59,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_designation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Designation" />
@@ -142,6 +144,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_about_us"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Indian Politician who was the chief minister of India. One of the most respected politician." />
@@ -156,6 +159,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="New Delhi" />

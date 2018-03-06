@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.akexorcist.localizationactivity.ui.LocalizationActivity;
+import com.github.tamir7.contacts.Contacts;
 import com.google.gson.Gson;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
@@ -84,11 +85,19 @@ public class CitizenHomeActivity extends LocalizationActivity {
             R.mipmap.ic_launcher
     };
 
+    //    @Rule
+//    public ReportHelper reportHelper = Factory.getReportHelper();
+//
+//    @After
+//    public void TearDown(){
+//        reportHelper.label("Stopping App");
+//    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+        Contacts.initialize(this);
 
         AppCenter.start(getApplication(), "142bb43b-0f4a-446b-8815-0d3b6331d082",
                 Analytics.class, Crashes.class);
@@ -150,7 +159,7 @@ public class CitizenHomeActivity extends LocalizationActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     changeThemeColor(position);
                 }
                 switch (position) {
@@ -212,7 +221,7 @@ public class CitizenHomeActivity extends LocalizationActivity {
         cv_profile_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CitizenHomeActivity.this, ProfileInfoActivity.class).putExtra("user_type", "citizen"));
+                startActivity(new Intent(CitizenHomeActivity.this, ProfilePageActivity.class).putExtra("user_type", "citizen"));
             }
         });
 
@@ -280,29 +289,29 @@ public class CitizenHomeActivity extends LocalizationActivity {
             @Override
             public void onMsgPassed(String response) {
                 Log.d(TagUtils.getTag(), "api called:-" + response);
-                try{
-                    JSONObject jsonObject=new JSONObject(response);
-                    if(jsonObject.optString("status").equals("success")){
-                        String user_profile=jsonObject.optJSONObject("user_detail").optJSONObject("user_profile").toString();
-                        Gson gson=new Gson();
-                        UserProfilePOJO userProfilePOJO=gson.fromJson(user_profile,UserProfilePOJO.class);
-                        Pref.SaveUserProfile(getApplicationContext(),userProfilePOJO);
-                        Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_LOGIN,true);
-                        if(userProfilePOJO.getFirstname().equals("")||userProfilePOJO.getMiddlename().equals("")||
-                                userProfilePOJO.getLastname().equals("")||userProfilePOJO.getFullname().equals("")||
-                                userProfilePOJO.getGender().equals("0")||userProfilePOJO.getDateOfBirth().equals("0000-00-00")||
-                                userProfilePOJO.getState().equals("")){
-                            Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED,false);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.optString("status").equals("success")) {
+                        String user_profile = jsonObject.optJSONObject("user_detail").optJSONObject("user_profile").toString();
+                        Gson gson = new Gson();
+                        UserProfilePOJO userProfilePOJO = gson.fromJson(user_profile, UserProfilePOJO.class);
+                        Pref.SaveUserProfile(getApplicationContext(), userProfilePOJO);
+                        Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_LOGIN, true);
+                        if (userProfilePOJO.getFirstname().equals("") || userProfilePOJO.getMiddlename().equals("") ||
+                                userProfilePOJO.getLastname().equals("") || userProfilePOJO.getFullname().equals("") ||
+                                userProfilePOJO.getGender().equals("0") || userProfilePOJO.getDateOfBirth().equals("0000-00-00") ||
+                                userProfilePOJO.getState().equals("")) {
+                            Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED, false);
                             startActivity(new Intent(getApplicationContext(), ProfileInfoActivity.class));
                             finishAffinity();
 
-                        }else{
-                            Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED,true);
+                        } else {
+                            Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED, true);
                             startActivity(new Intent(getApplicationContext(), CitizenHomeActivity.class));
                             finishAffinity();
                         }
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -340,6 +349,10 @@ public class CitizenHomeActivity extends LocalizationActivity {
 
     public void selectDrawerItem(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
+
+            case R.id.nav_home:
+                viewPager.setCurrentItem(0);
+                break;
             case R.id.nav_community:
 //                startActivity(new Intent(CitizenHomeActivity.this, AddCommunication.class));
                 viewPager.setCurrentItem(4);

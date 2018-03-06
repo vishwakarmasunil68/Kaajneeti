@@ -56,6 +56,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="@string/hs_tab_home"
+                                android:visibility="invisible"
                                 android:textColor="#FFFFFF"
                                 android:textSize="18sp" />
 
