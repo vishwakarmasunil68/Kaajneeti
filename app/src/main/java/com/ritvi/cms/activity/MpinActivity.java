@@ -1,15 +1,21 @@
 package com.ritvi.cms.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.google.gson.Gson;
 import com.ritvi.cms.R;
+import com.ritvi.cms.Util.Constants;
 import com.ritvi.cms.Util.Pref;
 import com.ritvi.cms.Util.StringUtils;
 import com.ritvi.cms.Util.TagUtils;
@@ -30,7 +36,7 @@ import butterknife.ButterKnife;
 
 public class MpinActivity extends LocalizationActivity implements WebServicesCallBack{
 
-    private static final String CALL_MPIN_SET = "call_mpin_set";
+
     @BindView(R.id.btn_accept)
     Button btn_accept;
     @BindView(R.id.iv_back)
@@ -70,6 +76,18 @@ public class MpinActivity extends LocalizationActivity implements WebServicesCal
             }
         });
 
+        et_confirm_mpin.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView tv, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    btn_accept.callOnClick();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(et_confirm_mpin.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,23 +103,21 @@ public class MpinActivity extends LocalizationActivity implements WebServicesCal
         nameValuePairs.add(new BasicNameValuePair("mobile", mobile_number));
         nameValuePairs.add(new BasicNameValuePair("mpin", et_confirm_mpin.getText().toString()));
         nameValuePairs.add(new BasicNameValuePair("mpin_confirm", et_confirm_mpin.getText().toString()));
-        new WebServiceBase(nameValuePairs, this, this, CALL_MPIN_SET, true).execute(WebServicesUrls.REGISTER_URL);
+        new WebServiceBase(nameValuePairs, this, this, Constants.CALL_MPIN_SET, true).execute(WebServicesUrls.REGISTER_URL);
     }
 
     @Override
     public void onGetMsg(String apicall, String response) {
         TagUtils.printResponse(apicall, response);
-        switch (apicall) {
-            case CALL_MPIN_SET:
-                parseMpinResponse(response);
-                break;
+        if(apicall.equals(Constants.CALL_MPIN_SET)){
+            parseMpinResponse(response);
         }
     }
 
     public void parseMpinResponse(String response) {
         try{
             JSONObject jsonObject=new JSONObject(response);
-            if(jsonObject.optString("status").equals("success")){
+            if(jsonObject.optString(Constants.API_STATUS).equals(Constants.API_SUCCESS)){
                 String user_profile=jsonObject.optJSONObject("user_detail").optJSONObject("user_profile").toString();
                 Gson gson=new Gson();
                 UserProfilePOJO userProfilePOJO=gson.fromJson(user_profile,UserProfilePOJO.class);
@@ -117,7 +133,7 @@ public class MpinActivity extends LocalizationActivity implements WebServicesCal
 
                 }else{
                     Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED,true);
-                    startActivity(new Intent(getApplicationContext(), CitizenHomeActivity.class));
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                     finishAffinity();
                 }
             }

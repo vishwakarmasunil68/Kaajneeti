@@ -31,6 +31,15 @@ public class FileUtils {
         return f.toString();
     }
 
+    public static String getSocialDir() {
+        File f = new File(getBaseFilePath() + File.separator + "social");
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+
+        return f.toString();
+    }
+
     public static String getdownloadVideo() {
         File f = new File(getBaseFilePath() + File.separator + "download");
         if (!f.exists()) {

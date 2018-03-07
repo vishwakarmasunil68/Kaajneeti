@@ -79,9 +79,12 @@
                         android:id="@+id/et_login_otp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
                         android:paddingLeft="35dp"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:ems="10"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:singleLine="true"/>
 
                 </FrameLayout>
 

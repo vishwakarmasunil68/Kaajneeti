@@ -114,7 +114,10 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:hint="...."
+                    android:ems="10"
+                    android:imeOptions="actionDone"
                     android:inputType="number"
+                    android:singleLine="true"
                     android:textColor="#757575"
                     android:textSize="18sp"
                     android:textStyle="bold" />

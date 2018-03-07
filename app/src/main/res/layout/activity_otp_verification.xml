@@ -99,7 +99,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:hint="OTP"
+                    android:ems="10"
+                    android:imeOptions="actionDone"
                     android:inputType="number"
+                    android:singleLine="true"
                     android:background="@null"
                     android:textSize="24sp" />
 

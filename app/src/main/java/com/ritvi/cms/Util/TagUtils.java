@@ -20,4 +20,8 @@ public class TagUtils {
     public static void printResponse(String apicall,String response){
         Log.d(getTag(),apicall+" :- "+response);
     }
+
+    public static void printstackTrace(){
+
+    }
 }

@@ -19,7 +19,7 @@
     <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT" />
 
     <application
-        android:name="android.support.multidex.MultiDexApplication"
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -39,7 +39,7 @@
         <activity android:name=".activity.RegistrationActivity" />
         <activity android:name=".activity.TermsConditionActivity" />
         <activity android:name=".activity.CitizenHomeActivity" />
-        <activity android:name=".activity.SatyapanActivity" />
+        <activity android:name=".activity.OtpVerificationActivity" />
         <activity android:name=".activity.MpinActivity" />
 
         <provider
@@ -103,7 +103,14 @@
         <activity android:name=".activity.SuggestionSubmitFormActivity" />
         <activity android:name=".activity.InformationSubmittedActivity" />
         <activity android:name=".activity.ProfilePageActivity" />
-        <activity android:name=".activity.ReferActivity"></activity>
+        <activity android:name=".activity.ReferActivity" />
+        <!-- <activity android:name=".testing.TwitterLoginTest"></activity> -->
+
+        <activity android:name="com.twitter.sdk.android.core.identity.OAuthActivity" />
+        <activity android:name=".activity.HomeActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".activity.AddPostActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
     </application>
 
 </manifest>

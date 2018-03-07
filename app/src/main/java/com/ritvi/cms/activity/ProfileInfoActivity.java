@@ -42,15 +42,22 @@ import com.ritvi.cms.pojo.user.UserProfilePOJO;
 import com.ritvi.cms.webservice.WebServiceBase;
 import com.ritvi.cms.webservice.WebServicesCallBack;
 import com.ritvi.cms.webservice.WebServicesUrls;
+import com.ritvi.cms.webservice.WebUploadService;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,8 +70,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileInfoActivity extends LocalizationActivity implements DatePickerDialog.OnDateSetListener, WebServicesCallBack {
 
-    private int PICK_IMAGE_REQUEST = 1;
-    private static final int CAMERA_REQUEST = 1888;
+    private int PICK_IMAGE_REQUEST = 101;
+    private final int STATE_SELECT_INTENT = 102;
+    private static final int CAMERA_REQUEST = 103;
     private static final String CALL_PROFILE_SAVE_API = "call_profile_save_api";
     private static final String CALL_PROFILE_GET_API = "call_profile_get_api";
     @BindView(R.id.toolbar)
@@ -97,9 +105,8 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
     @BindView(R.id.btn_accept)
     Button btn_accept;
 
-    private final int STATE_SELECT_INTENT = 1;
 
-    String user_type = "";
+    UserProfilePOJO userProfilePOJO;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,11 +118,7 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            user_type = bundle.getString("user_type");
-        }
+        userProfilePOJO = Pref.GetUserProfile(getApplicationContext());
 
         autoFillForm();
 
@@ -144,8 +147,8 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
         tv_skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Pref.SetBooleanPref(getApplicationContext(),StringUtils.IS_PROFILE_SKIPPED,true);
-                startActivity(new Intent(ProfileInfoActivity.this, CitizenHomeActivity.class));
+                Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_SKIPPED, true);
+                startActivity(new Intent(ProfileInfoActivity.this, HomeActivity.class));
                 finish();
             }
         });
@@ -215,30 +218,35 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
 
     public void autoFillForm() {
         try {
-            if (user_type.length() == 0) {
-
-            } else {
-//            if (user_type.equals("citizen")) {
-                ProfileRolePOJO profileRolePOJO = Pref.getProfileRolePOJO(Pref.GetStringPref(getApplicationContext(), StringUtils.C_PROFILE_DETAIL, ""));
-                et_name.setText(profileRolePOJO.getUpFirstName() + " " + profileRolePOJO.getUpLastName());
-                switch (Pref.GetStringPref(getApplicationContext(), StringUtils.CITIZEN_GENDER, "")) {
-                    case "1":
-                        rb_male.setChecked(true);
-                        break;
-                    case "2":
-                        rb_female.setChecked(true);
-                        break;
-                    default:
-                        rb_other.setChecked(true);
-                        break;
-                }
-
-                et_birth_date.setText(Pref.GetStringPref(getApplicationContext(), StringUtils.CITIZEN_DATE_OF_BIRTH, ""));
-                et_email.setText(Pref.GetStringPref(getApplicationContext(), StringUtils.CITIZEN_EMAIL, ""));
-
+            et_name.setText(userProfilePOJO.getFullname());
+            switch (userProfilePOJO.getGender()) {
+                case "1":
+                    rb_male.setChecked(true);
+                    break;
+                case "2":
+                    rb_female.setChecked(true);
+                    break;
+                case "3":
+                    rb_other.setChecked(true);
+                    break;
+                default:
+                    break;
             }
-        }
-        catch (Exception e){
+
+            Glide.with(getApplicationContext())
+                    .load(userProfilePOJO.getProfileImage())
+                    .placeholder(R.drawable.ic_default_profile_pic)
+                    .error(R.drawable.ic_default_profile_pic)
+                    .dontAnimate()
+                    .into(cv_profile_pic);
+
+            if(userProfilePOJO.getState()!=null||userProfilePOJO.getState().length()>0) {
+                tv_state_select.setText(userProfilePOJO.getState());
+            }
+
+            et_birth_date.setText(userProfilePOJO.getDateOfBirth());
+            et_email.setText(userProfilePOJO.getEmail());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -285,18 +293,30 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
         }
 
         UserProfilePOJO userProfilePOJO = Pref.GetUserProfile(this);
+        Log.d(TagUtils.getTag(), "profile image:-" + image_path_string);
+        try {
+            MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+            if (image_path_string.length() > 0 && new File(image_path_string).exists()) {
+                FileBody bin1 = new FileBody(new File(image_path_string));
+                reqEntity.addPart("profile_img", bin1);
+            } else {
+                reqEntity.addPart("profile_img", new StringBody(""));
+            }
+            reqEntity.addPart("cover_profile_img", new StringBody(""));
+            reqEntity.addPart("request_action", new StringBody("UPDATE_PROFILE_LOGIN"));
+            reqEntity.addPart("citizen_id", new StringBody(userProfilePOJO.getCitizenId()));
+            reqEntity.addPart("fullname", new StringBody(et_name.getText().toString(), Charset.forName(HTTP.UTF_8)));
+            reqEntity.addPart("gender", new StringBody(gender, Charset.forName(HTTP.UTF_8)));
+            reqEntity.addPart("date_of_birth", new StringBody(date, Charset.forName(HTTP.UTF_8)));
+            reqEntity.addPart("state", new StringBody(tv_state_select.getText().toString(), Charset.forName(HTTP.UTF_8)));
+            reqEntity.addPart("email", new StringBody(et_email.getText().toString(), Charset.forName(HTTP.UTF_8)));
+            reqEntity.addPart("mobile", new StringBody(userProfilePOJO.getMobile(), Charset.forName(HTTP.UTF_8)));
+            reqEntity.addPart("alt_mobile", new StringBody(et_alternate_mobile.getText().toString(), Charset.forName(HTTP.UTF_8)));
+            new WebUploadService(reqEntity, this, this, CALL_PROFILE_SAVE_API, false).execute(WebServicesUrls.CITIZEN_PROFILE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
-        nameValuePairs.add(new BasicNameValuePair("request_action", "UPDATE_PROFILE_LOGIN"));
-        nameValuePairs.add(new BasicNameValuePair("user_id", userProfilePOJO.getCitizenId()));
-        nameValuePairs.add(new BasicNameValuePair("fullname", et_name.getText().toString()));
-        nameValuePairs.add(new BasicNameValuePair("gender", gender));
-        nameValuePairs.add(new BasicNameValuePair("date_of_birth", date));
-        nameValuePairs.add(new BasicNameValuePair("state", tv_state_select.getText().toString()));
-        nameValuePairs.add(new BasicNameValuePair("email", et_email.getText().toString()));
-        nameValuePairs.add(new BasicNameValuePair("mobile", userProfilePOJO.getMobile()));
-        nameValuePairs.add(new BasicNameValuePair("alt_mobile", et_alternate_mobile.getText().toString()));
-        new WebServiceBase(nameValuePairs, this, this, CALL_PROFILE_SAVE_API, true).execute(WebServicesUrls.EDIT_PROFILE);
     }
 
     @Override
@@ -304,21 +324,13 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
         String date = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
         et_birth_date.setText(date);
     }
-    String image_path_string="";
+
+    String image_path_string = "";
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == STATE_SELECT_INTENT) {
-            if (resultCode == Activity.RESULT_OK) {
-                String state = data.getStringExtra("state");
-                tv_state_select.setText(state);
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-            }
-            return;
-        }
+
         if (requestCode == PICK_IMAGE_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 if (null == data)
@@ -355,7 +367,7 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
                     bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
                     fos.flush();
                     fos.close();
-                    image_path_string=file_name.toString();
+                    image_path_string = file_name.toString();
                     setProfilePic();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -365,9 +377,19 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
             }
             return;
         }
+        if (requestCode == STATE_SELECT_INTENT) {
+            if (resultCode == Activity.RESULT_OK) {
+                String state = data.getStringExtra("state");
+                tv_state_select.setText(state);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+            return;
+        }
     }
 
-    public void setProfilePic(){
+    public void setProfilePic() {
         Glide.with(getApplicationContext())
                 .load(image_path_string)
                 .placeholder(R.mipmap.ic_launcher)
@@ -420,19 +442,13 @@ public class ProfileInfoActivity extends LocalizationActivity implements DatePic
                 Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_LOGIN, true);
                 Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED, true);
                 Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_SKIPPED, true);
-                if(user_type.length()==0||user_type.equals("citizen")) {
-                    startActivity(new Intent(getApplicationContext(), CitizenHomeActivity.class));
-                }else{
-                    startActivity(new Intent(getApplicationContext(), LeaderHomeActivity.class));
-                }
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 finishAffinity();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
 
 
     @TargetApi(Build.VERSION_CODES.KITKAT)

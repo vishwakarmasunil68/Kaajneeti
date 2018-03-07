@@ -1,17 +1,23 @@
 package com.ritvi.cms.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.google.gson.Gson;
 import com.ritvi.cms.R;
+import com.ritvi.cms.Util.Constants;
 import com.ritvi.cms.Util.Pref;
 import com.ritvi.cms.Util.TagUtils;
 import com.ritvi.cms.Util.ToastClass;
@@ -29,9 +35,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SatyapanActivity extends LocalizationActivity implements WebServicesCallBack {
+public class OtpVerificationActivity extends LocalizationActivity implements WebServicesCallBack {
 
-    private static final String CALL_OTP_VERIFIED = "call_otp_verified";
+
     @BindView(R.id.btn_accept)
     Button btn_accept;
     @BindView(R.id.iv_back)
@@ -46,7 +52,7 @@ public class SatyapanActivity extends LocalizationActivity implements WebService
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_satyapan);
+        setContentView(R.layout.activity_otp_verification);
         ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
@@ -54,12 +60,24 @@ public class SatyapanActivity extends LocalizationActivity implements WebService
             mobile_number = bundle.getString("mobile_number");
         }
 
+        et_otp.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView tv, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    btn_accept.callOnClick();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(et_otp.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         btn_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 validateMobileOTP();
-//                startActivity(new Intent(SatyapanActivity.this,MpinActivity.class));
+//                startActivity(new Intent(OtpVerificationActivity.this,MpinActivity.class));
             }
         });
 
@@ -78,7 +96,7 @@ public class SatyapanActivity extends LocalizationActivity implements WebService
             nameValuePairs.add(new BasicNameValuePair("device_token", ""));
             nameValuePairs.add(new BasicNameValuePair("mobile", mobile_number));
             nameValuePairs.add(new BasicNameValuePair("otp", et_otp.getText().toString()));
-            new WebServiceBase(nameValuePairs, this, this, CALL_OTP_VERIFIED, true).execute(WebServicesUrls.REGISTER_URL);
+            new WebServiceBase(nameValuePairs, this, this, Constants.CALL_OTP_VERIFIED, true).execute(WebServicesUrls.REGISTER_URL);
         } else {
             ToastClass.showShortToast(getApplicationContext(),"Please Enter Correct OTP");
         }
@@ -105,22 +123,20 @@ public class SatyapanActivity extends LocalizationActivity implements WebService
     @Override
     public void onGetMsg(String apicall, String response) {
         TagUtils.printResponse(apicall, response);
-        switch (apicall) {
-            case CALL_OTP_VERIFIED:
-                parseOTPVerifiedResponse(response);
-                break;
+        if(apicall.equals(Constants.CALL_OTP_VERIFIED)){
+            parseOTPVerifiedResponse(response);
         }
     }
 
     public void parseOTPVerifiedResponse(String response) {
         try {
             JSONObject jsonObject=new JSONObject(response);
-            if(jsonObject.optString("status").equals("success")){
+            if(jsonObject.optString(Constants.API_STATUS).equals(Constants.API_SUCCESS)){
                 String userprofile=jsonObject.optJSONObject("user_detail").optJSONObject("user_profile").toString();
                 Gson gson=new Gson();
                 UserProfilePOJO userProfilePOJO=gson.fromJson(userprofile,UserProfilePOJO.class);
                 Pref.SaveUserProfile(getApplicationContext(),userProfilePOJO);
-                startActivity(new Intent(SatyapanActivity.this,MpinActivity.class).putExtra("mobile_number",mobile_number));
+                startActivity(new Intent(OtpVerificationActivity.this,MpinActivity.class).putExtra("mobile_number",mobile_number));
             }else{
                 ToastClass.showShortToast(getApplicationContext(),"wrong otp");
             }

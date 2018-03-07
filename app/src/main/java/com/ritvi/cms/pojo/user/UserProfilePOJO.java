@@ -309,4 +309,37 @@ public class UserProfilePOJO {
     public void setTwitterProfileId(String twitterProfileId) {
         this.twitterProfileId = twitterProfileId;
     }
+
+    @Override
+    public String toString() {
+        return "UserProfilePOJO{" +
+                "citizenId='" + citizenId + '\'' +
+                ", profileId='" + profileId + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", middlename='" + middlename + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", altMobile='" + altMobile + '\'' +
+                ", gender='" + gender + '\'' +
+                ", status='" + status + '\'' +
+                ", createdOn='" + createdOn + '\'' +
+                ", updatedOn='" + updatedOn + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", country='" + country + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                ", aboutMe='" + aboutMe + '\'' +
+                ", deviceToken='" + deviceToken + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", profileImage='" + profileImage + '\'' +
+                ", coverImage='" + coverImage + '\'' +
+                ", facebookProfileId='" + facebookProfileId + '\'' +
+                ", googleProfileId='" + googleProfileId + '\'' +
+                ", twitterProfileId='" + twitterProfileId + '\'' +
+                '}';
+    }
 }

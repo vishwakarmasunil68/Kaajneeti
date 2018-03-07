@@ -1,16 +1,22 @@
 package com.ritvi.cms.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ritvi.cms.R;
+import com.ritvi.cms.Util.Constants;
 import com.ritvi.cms.Util.TagUtils;
 import com.ritvi.cms.Util.ToastClass;
 import com.ritvi.cms.webservice.WebServiceBase;
@@ -27,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LoginWithOTPActivity extends AppCompatActivity implements WebServicesCallBack{
-    private static final String CALL_LOGIN_OTP = "call_login_otp";
+
     @BindView(R.id.btn_next)
     Button btn_next;
     @BindView(R.id.et_login_otp)
@@ -46,6 +52,19 @@ public class LoginWithOTPActivity extends AppCompatActivity implements WebServic
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setTitle("");
 
+        et_login_otp.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView tv, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    btn_next.callOnClick();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(et_login_otp.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
+
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +82,7 @@ public class LoginWithOTPActivity extends AppCompatActivity implements WebServic
         ArrayList<NameValuePair> nameValuePairs=new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("request_action","LOGIN_MOBILE"));
         nameValuePairs.add(new BasicNameValuePair("mobile","+91"+et_login_otp.getText().toString()));
-        new WebServiceBase(nameValuePairs,this,this,CALL_LOGIN_OTP,true).execute(WebServicesUrls.LOGIN_URL);
+        new WebServiceBase(nameValuePairs,this,this, Constants.CALL_LOGIN_OTP,true).execute(WebServicesUrls.LOGIN_URL);
     }
 
     @Override
@@ -77,10 +96,8 @@ public class LoginWithOTPActivity extends AppCompatActivity implements WebServic
     @Override
     public void onGetMsg(String apicall, String response) {
         Log.d(TagUtils.getTag(),apicall+":-"+response);
-        switch (apicall){
-            case CALL_LOGIN_OTP:
-                parseLoginResponse(response);
-                break;
+        if(apicall.equals(Constants.CALL_LOGIN_API)){
+            parseLoginResponse(response);
         }
     }
 

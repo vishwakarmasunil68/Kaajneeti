@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.ritvi.cms.R;
+import com.ritvi.cms.Util.Constants;
 import com.ritvi.cms.adapter.StateAdapter;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class StateSelectActivity extends LocalizationActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_state_select);
         ButterKnife.bind(this);
-        setStateList();
+        stateList= Constants.setStateList();
         attachAdapter();
 
         et_place_search.addTextChangedListener(new TextWatcher() {
@@ -81,43 +82,5 @@ public class StateSelectActivity extends LocalizationActivity {
         rv_places.setItemAnimator(new DefaultItemAnimator());
     }
 
-    public void setStateList() {
-        stateList.add("Andaman and Nicobar Islands");
-        stateList.add("Andhra Pradesh");
-        stateList.add("Arunachal Pradesh");
-        stateList.add("Assam");
-        stateList.add("Bihar");
-        stateList.add("Chandigarh");
-        stateList.add("Chhattisgarh");
-        stateList.add("Dadra and Nagar Haveli");
-        stateList.add("Daman and Diu");
-        stateList.add("National Capital Territory of Delhi");
-        stateList.add("Goa");
-        stateList.add("Gujarat");
-        stateList.add("Haryana");
-        stateList.add("Himachal Pradesh");
-        stateList.add("Jammu and Kashmir");
-        stateList.add("Jharkhand");
-        stateList.add("Karnataka");
-        stateList.add("Kerala");
-        stateList.add("Lakshadweep");
-        stateList.add("Madhya Pradesh");
-        stateList.add("Maharashtra");
-        stateList.add("Manipur");
-        stateList.add("Meghalaya");
-        stateList.add("Mizoram");
-        stateList.add("Nagaland");
-        stateList.add("Odisha");
-        stateList.add("Puducherry");
-        stateList.add("Punjab");
-        stateList.add("Rajasthan");
-        stateList.add("Sikkim");
-        stateList.add("Tamil Nadu");
-        stateList.add("Telangana");
-        stateList.add("Tripura");
-        stateList.add("Uttar Pradesh");
-        stateList.add("Uttarakhand");
-        stateList.add("West Bengal");
-    }
 
 }

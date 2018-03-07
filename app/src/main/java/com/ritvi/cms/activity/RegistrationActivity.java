@@ -1,17 +1,23 @@
 package com.ritvi.cms.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.ritvi.cms.R;
+import com.ritvi.cms.Util.Constants;
 import com.ritvi.cms.Util.TagUtils;
 import com.ritvi.cms.Util.ToastClass;
 import com.ritvi.cms.webservice.WebServiceBase;
@@ -30,7 +36,6 @@ import butterknife.ButterKnife;
 public class RegistrationActivity extends LocalizationActivity implements View.OnClickListener, TextWatcher, WebServicesCallBack {
 
 
-    private static final String CALL_REGISTER_API = "call_register_api";
     @BindView(R.id.btn_accept)
     Button btn_accept;
     @BindView(R.id.iv_back)
@@ -55,6 +60,19 @@ public class RegistrationActivity extends LocalizationActivity implements View.O
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        et_phone_number.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView tv, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    btn_accept.callOnClick();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(et_phone_number.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -96,34 +114,33 @@ public class RegistrationActivity extends LocalizationActivity implements View.O
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
             nameValuePairs.add(new BasicNameValuePair("request_action", "REGISTER_MOBILE"));
             nameValuePairs.add(new BasicNameValuePair("device_token", ""));
-            nameValuePairs.add(new BasicNameValuePair("mobile", "+91"+et_phone_number.getText().toString()));
-            new WebServiceBase(nameValuePairs, this, this, CALL_REGISTER_API, true).execute(WebServicesUrls.REGISTER_URL);
+            nameValuePairs.add(new BasicNameValuePair("mobile", "+91" + et_phone_number.getText().toString()));
+            new WebServiceBase(nameValuePairs, this, this, Constants.CALL_REGISTER_API, true).execute(WebServicesUrls.REGISTER_URL);
 
-//            startActivity(new Intent(RegistrationActivity.this, SatyapanActivity.class));
+//            startActivity(new Intent(RegistrationActivity.this, OtpVerificationActivity.class));
         }
     }
 
     @Override
     public void onGetMsg(String apicall, String response) {
         Log.d(TagUtils.getTag(), apicall + " :- " + response);
-        switch (apicall) {
-            case CALL_REGISTER_API:
-                parseRegisterResponse(response);
-                break;
+
+        if (apicall.equals(Constants.CALL_REGISTER_API)) {
+            parseRegisterResponse(response);
         }
     }
 
-    public void parseRegisterResponse(String response){
-        try{
-            JSONObject jsonObject=new JSONObject(response);
-            if(jsonObject.optString("status").equals("success")){
-                startActivity(new Intent(RegistrationActivity.this,SatyapanActivity.class).putExtra("mobile_number","+91"+et_phone_number.getText().toString()));
-            }else{
-                ToastClass.showShortToast(getApplicationContext(),"Something went wrong");
+    public void parseRegisterResponse(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            if (jsonObject.optString(Constants.API_STATUS).equals(Constants.API_SUCCESS)) {
+                startActivity(new Intent(RegistrationActivity.this, OtpVerificationActivity.class).putExtra("mobile_number", "+91" + et_phone_number.getText().toString()));
+            } else {
+                ToastClass.showShortToast(getApplicationContext(), ToastClass.SOMETHING_WENT_WRONG);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            ToastClass.showShortToast(getApplicationContext(),"No Internet Connection");
+            ToastClass.showShortToast(getApplicationContext(), ToastClass.NO_INTERNET_CONNECTION);
         }
     }
 }

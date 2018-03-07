@@ -1,13 +1,17 @@
 package com.ritvi.cms.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -78,6 +82,18 @@ public class LoginOtpConfirmActivity extends AppCompatActivity implements WebSer
             }
         });
 
+        et_otp.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView tv, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    btn_next.callOnClick();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(et_otp.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         startTimer();
 
@@ -180,7 +196,7 @@ public class LoginOtpConfirmActivity extends AppCompatActivity implements WebSer
 
                 }else{
                     Pref.SetBooleanPref(getApplicationContext(), StringUtils.IS_PROFILE_COMPLETED,true);
-                    startActivity(new Intent(getApplicationContext(), CitizenHomeActivity.class));
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                     finishAffinity();
                 }
             }
