@@ -81,7 +81,7 @@ dependencies {
     compile "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
 //    compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
 
-    androidTestImplementation 'com.microsoft.appcenter:espresso-test-extension:1.2'
+//    androidTestImplementation 'com.microsoft.appcenter:espresso-test-extension:1.2'
     compile 'com.sothree.slidinguppanel:library:3.4.0'
 }
 apply plugin: 'com.google.gms.google-services'
