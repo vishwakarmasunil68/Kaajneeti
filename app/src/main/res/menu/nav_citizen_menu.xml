@@ -6,6 +6,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_explore"
+            android:icon="@drawable/ic_explore"
             android:checked="true"
             android:title="Explore" />
 
@@ -19,7 +20,7 @@
             android:id="@+id/nav_act"
             android:checked="true"
             android:icon="@drawable/ic_communication"
-            android:title="Act" />
+            android:title="Express" />
 
         <item
             android:id="@+id/nav_analyze"
@@ -30,12 +31,12 @@
         <item
             android:id="@+id/nav_elect"
             android:checked="true"
-            android:icon="@drawable/ic_dashboard"
+            android:icon="@drawable/ic_elect"
             android:title="Elect" />
         <item
             android:id="@+id/nav_contribute"
             android:checked="true"
-            android:icon="@drawable/ic_dashboard"
+            android:icon="@drawable/ic_contribute"
             android:title="Contribute" />
         <item
             android:id="@+id/nav_earn"
@@ -49,6 +50,7 @@
         <item
             android:id="@+id/nav_rti"
             android:checked="true"
+            android:icon="@drawable/ic_rti"
             android:title="Right To Information" />
 
         <item

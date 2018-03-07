@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,13 +30,20 @@ import com.ritvi.cms.Util.Constants;
 import com.ritvi.cms.Util.Pref;
 import com.ritvi.cms.Util.StringUtils;
 import com.ritvi.cms.Util.TagUtils;
+import com.ritvi.cms.fragment.MyConnectionFragment;
 import com.ritvi.cms.pojo.user.UserProfilePOJO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity {
+
+    List<Fragment> fragmentList=new ArrayList<>();
+
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView nvDrawer;
@@ -54,6 +65,8 @@ public class HomeActivity extends AppCompatActivity {
     EditText et_search;
     @BindView(R.id.iv_search_close)
     ImageView iv_search_close;
+    @BindView(R.id.frame_main)
+    FrameLayout frame_main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,6 +230,7 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.nav_explore:
                 break;
             case R.id.nav_connect:
+                showMyConnectionFragment();
                 break;
             case R.id.nav_act:
                 break;
@@ -234,5 +248,15 @@ public class HomeActivity extends AppCompatActivity {
                 break;
         }
         mDrawer.closeDrawers();
+    }
+
+    public void showMyConnectionFragment() {
+        MyConnectionFragment myConnectionFragment = new MyConnectionFragment();
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.frame_main, myConnectionFragment, "myConnectionFragment");
+        transaction.addToBackStack(null);
+        transaction.commit();
+        fragmentList.add(myConnectionFragment);
     }
 }
