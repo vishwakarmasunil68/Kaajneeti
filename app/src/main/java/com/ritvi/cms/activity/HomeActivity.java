@@ -25,6 +25,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 import com.ritvi.cms.R;
 import com.ritvi.cms.Util.Constants;
 import com.ritvi.cms.Util.Pref;
@@ -72,9 +75,15 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home2);
+
+        AppCenter.start(getApplication(), "142bb43b-0f4a-446b-8815-0d3b6331d082",
+                Analytics.class, Crashes.class);
+        AppCenter.start(getApplication(), "142bb43b-0f4a-446b-8815-0d3b6331d082", Analytics.class, Crashes.class);
+
         ButterKnife.bind(this);
         userProfilePOJO = Pref.GetUserProfile(getApplicationContext());
         settingNavDrawer();
+
 
 //        iv_search.setOnClickListener(new View.OnClickListener() {
 //            @Override
