@@ -76,9 +76,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home2);
 
-        AppCenter.start(getApplication(), "142bb43b-0f4a-446b-8815-0d3b6331d082",
+        AppCenter.start(getApplication(), "43ff5ee0-d4c1-4ce4-bbd8-f5c988483281",
                 Analytics.class, Crashes.class);
-        AppCenter.start(getApplication(), "142bb43b-0f4a-446b-8815-0d3b6331d082", Analytics.class, Crashes.class);
 
         ButterKnife.bind(this);
         userProfilePOJO = Pref.GetUserProfile(getApplicationContext());
